@@ -6,6 +6,22 @@
 6 Fix non connectivity - Integration points and error cases
 
 
+<<<<<<< HEAD
+
+
+
+
+
+
+
+
+asdfasdfasd
+
+
+
+asdfasd
+dsffasdf
+=======
 https://review.udacity.com/#!/rubrics/140/view
 
 
@@ -35,3 +51,4 @@ Xaio-lu says:
 "When I opened this app for the first time without a network connection, it was a confusing blank
 screen. I would love a message that tells me why the screen is blank or whether my stock quotes are
 out of date."
+>>>>>>> c42b2feaee40d089ccf9400c2dc28560b8da9ed9
