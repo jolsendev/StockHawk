@@ -98,14 +98,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if (!networkUp() && adapter.getItemCount() == 0) {
             swipeRefreshLayout.setRefreshing(false);
-            error.setText(getString(R.string.error_no_network));
+            String errorMessage = getString(R.string.error_no_network);
+            error.setText(errorMessage);
+            error.setContentDescription(errorMessage);
             error.setVisibility(View.VISIBLE);
         } else if (!networkUp()) {
             swipeRefreshLayout.setRefreshing(false);
-            Toast.makeText(this, R.string.toast_no_connectivity, Toast.LENGTH_LONG).show();
+            String errorMessage = getString(R.string.toast_no_connectivity);
+            swipeRefreshLayout.setContentDescription(errorMessage);
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
         } else if (PrefUtils.getStocks(this).size() == 0) {
             swipeRefreshLayout.setRefreshing(false);
-            error.setText(getString(R.string.error_no_stocks));
+            String errorMessage = getString(R.string.error_no_stocks);
+            error.setText(errorMessage);
             error.setVisibility(View.VISIBLE);
         } else {
             error.setVisibility(View.GONE);
