@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.udacity.stockhawk.R;
+import com.udacity.stockhawk.fragments.StockFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
