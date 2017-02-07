@@ -35,7 +35,7 @@ import timber.log.Timber;
 
 import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements StockFragment.Callback
 {
     private boolean mTwoPane;
     public static String STOCK_FRAGMENT = "sf";
@@ -54,28 +54,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    void addStock(String symbol) {
-        if (symbol != null && !symbol.isEmpty()) {
-
-            if (networkUp()) {
-                swipeRefreshLayout.setRefreshing(true);
-            } else {
-                String message = getString(R.string.toast_stock_added_no_connectivity, symbol);
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            }
-
-            PrefUtils.addStock(this, symbol);
-            QuoteSyncJob.syncImmediately(this);
-        }
-    }
-
-    private boolean networkUp() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_settings, menu);
@@ -84,18 +62,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_change_units) {
-            PrefUtils.toggleDisplayMode(this);
-            setDisplayModeMenuItemIcon(item);
-            //adapter.notifyDataSetChanged();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
     private void setDisplayModeMenuItemIcon(MenuItem item) {
         if (PrefUtils.getDisplayMode(this)
                 .equals(getString(R.string.pref_display_mode_absolute_key))) {
@@ -104,4 +70,22 @@ public class MainActivity extends AppCompatActivity
             item.setIcon(R.drawable.ic_dollar);
         }
     }
+
+    public void addStock(String symbol) {
+        StockFragment sf = new StockFragment();
+        sf.addStock(symbol);
+    }
+
+    @Override
+    public void onStockFragmentInteraction(Uri uri) {
+
+    }
+
+
+    public void button(@SuppressWarnings("UnusedParameters") View view) {
+        new AddStockDialog().show(getFragmentManager(), "StockDialogFragment");
+    }
+
+
+
 }

@@ -72,7 +72,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     private String mParam1;
     private String mParam2;
 
-    private Callback mListener;
+    private Callback mCallback;
 
     public StockFragment() {
         // Required empty public constructor
@@ -99,24 +99,24 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
+//
+//        getLoaderManager().initLoader(STOCK_LOADER, null, this);
+//        adapter = new StockAdapter(getContext(), this);
+//        ButterKnife.bind(getActivity());
+//        QuoteSyncJob.initialize(getContext());
+//
+//        stockRecyclerView.setAdapter(adapter);
+//        stockRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//
+//        swipeRefreshLayout.setOnRefreshListener(this);
+//        swipeRefreshLayout.setRefreshing(true);
 
-        getLoaderManager().initLoader(STOCK_LOADER, null, this);
-        adapter = new StockAdapter(getContext(), this);
-        ButterKnife.bind(getActivity());
-        QuoteSyncJob.initialize(getContext());
-
-        stockRecyclerView.setAdapter(adapter);
-        stockRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setRefreshing(true);
 
 
-        onRefresh();
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
@@ -143,22 +143,31 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stock, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onStockFragmentInteraction(uri);
+        //mA = new MainActivity();
+        View view = inflater.inflate(R.layout.fragment_stock, container, false);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        getLoaderManager().initLoader(STOCK_LOADER, null, this);
+        adapter = new StockAdapter(getContext(), this);
+        ButterKnife.bind(this, view);
+        QuoteSyncJob.initialize(getContext());
+        stockRecyclerView.setAdapter(adapter);
+        stockRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setRefreshing(true);
+        onRefresh();
+        // Inflate the layout for this fragment
+        return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof Callback) {
-            mListener = (Callback) context;
+            mCallback = (Callback) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement Callback");
@@ -168,7 +177,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mCallback = null;
     }
 
     @Override
@@ -201,36 +210,6 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
         Timber.d("Symbol clicked: %s", symbol);
     }
 
-    @Override
-    public void onRefresh() {
-
-        QuoteSyncJob.syncImmediately(getContext());
-
-        if (!MainActivity.networkUp() && adapter.getItemCount() == 0) {
-            swipeRefreshLayout.setRefreshing(false);
-            String errorMessage = getString(R.string.error_no_network);
-            error.setText(errorMessage);
-            error.setContentDescription(errorMessage);
-            error.setVisibility(View.VISIBLE);
-        } else if (!MainActivity.networkUp()) {
-            swipeRefreshLayout.setRefreshing(false);
-            String errorMessage = getString(R.string.toast_no_connectivity);
-            swipeRefreshLayout.setContentDescription(errorMessage);
-            Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
-        } else if (PrefUtils.getStocks(getContext()).size() == 0) {
-            swipeRefreshLayout.setRefreshing(false);
-            String errorMessage = getString(R.string.error_no_stocks);
-            error.setText(errorMessage);
-            error.setVisibility(View.VISIBLE);
-        } else {
-            error.setVisibility(View.GONE);
-        }
-    }
-
-
-    public void button(@SuppressWarnings("UnusedParameters") View view) {
-        new AddStockDialog().show(getActivity().getFragmentManager(), "StockDialogFragment");
-    }
 
 
 
@@ -250,12 +229,82 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
                 Log.i(LOG_TAG, "This device is not supported.");
-                finish();
+                getActivity().finish();
             }
             return false;
         }
         return true;
     }
+
+
+    public boolean networkUp() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_change_units) {
+            PrefUtils.toggleDisplayMode(getContext());
+            setDisplayModeMenuItemIcon(item);
+            adapter.notifyDataSetChanged();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void setDisplayModeMenuItemIcon(MenuItem item) {
+        if (PrefUtils.getDisplayMode(getContext())
+                .equals(getString(R.string.pref_display_mode_absolute_key))) {
+            item.setIcon(R.drawable.ic_percentage);
+        } else {
+            item.setIcon(R.drawable.ic_dollar);
+        }
+    }
+    public void addStock(String symbol) {
+        if (symbol != null && !symbol.isEmpty()) {
+            if (networkUp()) {
+                swipeRefreshLayout.setRefreshing(true);
+            } else {
+                String message = getString(R.string.toast_stock_added_no_connectivity, symbol);
+                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+            }
+
+            PrefUtils.addStock(getActivity(), symbol);
+            QuoteSyncJob.syncImmediately(getActivity());
+        }
+    }
+
+
+
+
+
+    @Override
+    public void onRefresh() {
+
+        QuoteSyncJob.syncImmediately(getActivity());
+
+        if (adapter.getItemCount() == 0) {
+            swipeRefreshLayout.setRefreshing(false);
+            error.setText(getString(R.string.error_no_network));
+            error.setVisibility(View.VISIBLE);
+        } else if (networkUp()) {
+            swipeRefreshLayout.setRefreshing(false);
+            Toast.makeText(getContext(), R.string.toast_no_connectivity, Toast.LENGTH_LONG).show();
+        } else if (PrefUtils.getStocks(getActivity()).size() == 0) {
+            swipeRefreshLayout.setRefreshing(false);
+            error.setText(getString(R.string.error_no_stocks));
+            error.setVisibility(View.VISIBLE);
+        } else {
+            error.setVisibility(View.GONE);
+        }
+    }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
