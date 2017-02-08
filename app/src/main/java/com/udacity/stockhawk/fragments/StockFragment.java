@@ -13,31 +13,25 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
-import com.udacity.stockhawk.ui.AddStockDialog;
 import com.udacity.stockhawk.ui.MainActivity;
 import com.udacity.stockhawk.ui.StockAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
-
-import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,6 +67,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     private String mParam2;
 
     private Callback mCallback;
+    private Toolbar mToolBar;
 
     public StockFragment() {
         // Required empty public constructor
@@ -99,6 +94,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -113,23 +109,28 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
             }
         }).attachToRecyclerView(stockRecyclerView);
 
-        if (!checkPlayServices()) {
-            // This is where we could either prompt a user that they should install
-            // the latest version of Google Play Services, or add an error snackbar
-            // that some features won't be available.
-            Toast.makeText(getContext(), "Play services needs to be updated.", Toast.LENGTH_LONG).show();
-        }
+//        if (!checkPlayServices()) {
+//            // This is where we could either prompt a user that they should install
+//            // the latest version of Google Play Services, or add an error snackbar
+//            // that some features won't be available.
+//            Toast.makeText(getContext(), "Play services needs to be updated.", Toast.LENGTH_LONG).show();
+//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //mA = new MainActivity();
+
         View view = inflater.inflate(R.layout.fragment_stock, container, false);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mToolBar = (Toolbar)view.findViewById(R.id.toolbar);
+        ((MainActivity)getActivity()).setSupportActionBar(mToolBar);
+        ((MainActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+
 
         getLoaderManager().initLoader(STOCK_LOADER, null, this);
         adapter = new StockAdapter(getContext(), this);
@@ -201,21 +202,21 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
      * it doesn't, display a dialog that allows users to download the APK from
      * the Google Play Store or enable it in the device's system settings.
      */
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(getContext());
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(getActivity(), resultCode,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Log.i(LOG_TAG, "This device is not supported.");
-                getActivity().finish();
-            }
-            return false;
-        }
-        return true;
-    }
+//    private boolean checkPlayServices() {
+//        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+//        int resultCode = apiAvailability.isGooglePlayServicesAvailable(getContext());
+//        if (resultCode != ConnectionResult.SUCCESS) {
+//            if (apiAvailability.isUserResolvableError(resultCode)) {
+//                apiAvailability.getErrorDialog(getActivity(), resultCode,
+//                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+//            } else {
+//                Log.i(LOG_TAG, "This device is not supported.");
+//                getActivity().finish();
+//            }
+//            return false;
+//        }
+//        return true;
+//    }
 
     public boolean networkUp() {
         ConnectivityManager cm =

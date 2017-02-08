@@ -10,8 +10,14 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item
+            android:id="@+id/action_change_units"
+            android:icon="@drawable/ic_dollar"
+            android:orderInCategory="99"
+            android:title="@string/action_change_units"
+            app:showAsAction="always" />
+    </android.support.v7.widget.Toolbar>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
