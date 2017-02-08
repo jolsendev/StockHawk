@@ -21,6 +21,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.stetho.DumperPluginsProvider;
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.dumpapp.DumpException;
+import com.facebook.stetho.dumpapp.DumperContext;
+import com.facebook.stetho.dumpapp.DumperPlugin;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.udacity.stockhawk.R;
@@ -43,6 +48,18 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Stetho.initialize(Stetho.newInitializerBuilder(this)
+                .enableDumpapp(new DumperPluginsProvider() {
+                    @Override
+                    public Iterable<DumperPlugin> get() {
+                        return new Stetho.DefaultDumperPluginsBuilder(getApplicationContext())
+                                .provide(new MyDumperPlugin())
+                                .finish();
+                    }
+                })
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                .build());
 
         setContentView(R.layout.activity_main);
         if(findViewById(R.id.stock_detail_container)!=null){
@@ -86,6 +103,16 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
         new AddStockDialog().show(getFragmentManager(), "StockDialogFragment");
     }
 
+    private class MyDumperPlugin implements DumperPlugin {
+        @Override
+        public String getName() {
+            return null;
+        }
 
+        @Override
+        public void dump(DumperContext dumpContext) throws DumpException {
+
+        }
+    }
 
 }
