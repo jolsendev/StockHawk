@@ -99,25 +99,6 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//
-//        getLoaderManager().initLoader(STOCK_LOADER, null, this);
-//        adapter = new StockAdapter(getContext(), this);
-//        ButterKnife.bind(getActivity());
-//        QuoteSyncJob.initialize(getContext());
-//
-//        stockRecyclerView.setAdapter(adapter);
-//        stockRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//
-//        swipeRefreshLayout.setOnRefreshListener(this);
-//        swipeRefreshLayout.setRefreshing(true);
-
-
-
-
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -236,7 +217,6 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
         return true;
     }
 
-
     public boolean networkUp() {
         ConnectivityManager cm =
                 (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -279,10 +259,6 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
         }
     }
 
-
-
-
-
     @Override
     public void onRefresh() {
 
@@ -303,7 +279,6 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
             error.setVisibility(View.GONE);
         }
     }
-
 
 
     /**

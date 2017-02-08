@@ -1,5 +1,6 @@
 package com.udacity.stockhawk.ui;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
     }
 
     public void addStock(String symbol) {
-        StockFragment sf = new StockFragment();
+        StockFragment sf = (StockFragment) getSupportFragmentManager().findFragmentById(R.id.stock_fragment);
         sf.addStock(symbol);
     }
 
