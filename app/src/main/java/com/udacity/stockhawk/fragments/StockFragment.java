@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
 
     private Callback mCallback;
     private Toolbar mToolBar;
+    private ImageView mImageView;
 
     public StockFragment() {
         // Required empty public constructor
@@ -129,7 +131,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
 
         mToolBar = (Toolbar)view.findViewById(R.id.toolbar);
         ((MainActivity)getActivity()).setSupportActionBar(mToolBar);
-        ((MainActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((MainActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
         getLoaderManager().initLoader(STOCK_LOADER, null, this);
@@ -142,6 +144,16 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
         swipeRefreshLayout.setRefreshing(true);
         onRefresh();
         // Inflate the layout for this fragment
+
+        mImageView = (ImageView)view.findViewById(R.id.action_change_units);
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setIcon(mImageView);
+            }
+        });
+
         return view;
     }
 
@@ -278,6 +290,24 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
             error.setVisibility(View.VISIBLE);
         } else {
             error.setVisibility(View.GONE);
+        }
+    }
+
+    public void setIcon(ImageView imageView) {
+        if(PrefUtils.getDisplayMode(getContext()).equals(getString(R.string.pref_display_mode_absolute_key))){
+            imageView.setBackgroundResource(R.drawable.ic_percentage);
+            PrefUtils.toggleDisplayMode(getContext());
+            dataChanged();
+        }else if(PrefUtils.getDisplayMode(getContext()).equals(getString(R.string.pref_display_mode_percentage_key))){
+            imageView.setBackgroundResource(R.drawable.ic_dollar);
+            PrefUtils.toggleDisplayMode(getContext());
+            dataChanged();
+        }
+    }
+
+    private void dataChanged() {
+        if(adapter != null){
+            adapter.notifyDataSetChanged();
         }
     }
 

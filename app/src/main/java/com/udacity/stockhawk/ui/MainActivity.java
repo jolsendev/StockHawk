@@ -7,11 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.stetho.DumperPluginsProvider;
-import com.facebook.stetho.Stetho;
-import com.facebook.stetho.dumpapp.DumpException;
-import com.facebook.stetho.dumpapp.DumperContext;
-import com.facebook.stetho.dumpapp.DumperPlugin;
+//import com.facebook.stetho.DumperPluginsProvider;
+//import com.facebook.stetho.Stetho;
+//import com.facebook.stetho.dumpapp.DumpException;
+//import com.facebook.stetho.dumpapp.DumperContext;
+//import com.facebook.stetho.dumpapp.DumperPlugin;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.fragments.StockFragment;
@@ -25,17 +25,19 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Stetho.initialize(Stetho.newInitializerBuilder(this)
-                .enableDumpapp(new DumperPluginsProvider() {
-                    @Override
-                    public Iterable<DumperPlugin> get() {
-                        return new Stetho.DefaultDumperPluginsBuilder(getApplicationContext())
-                                .provide(new MyDumperPlugin())
-                                .finish();
-                    }
-                })
-                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-                .build());
+//        Stetho.initialize(Stetho.newInitializerBuilder(this)
+//                .enableDumpapp(new DumperPluginsProvider() {
+//                    @Override
+//                    public Iterable<DumperPlugin> get() {
+//                        return new Stetho.DefaultDumperPluginsBuilder(getApplicationContext())
+//                                .provide(new MyDumperPlugin())
+//                                .finish();
+//                    }
+//                })
+//                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+//                .build());
+
+        
 
         setContentView(R.layout.activity_main);
         if(findViewById(R.id.stock_detail_container)!=null){
@@ -49,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_activity_settings, menu);
-        MenuItem item = menu.findItem(R.id.action_change_units);
-        setDisplayModeMenuItemIcon(item);
+//        getMenuInflater().inflate(R.menu.main_activity_settings, menu);
+//        MenuItem item = menu.findItem(R.id.action_change_units);
+//        setDisplayModeMenuItemIcon(item);
         return true;
     }
 
@@ -79,16 +81,16 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
         new AddStockDialog().show(getFragmentManager(), "StockDialogFragment");
     }
 
-    private class MyDumperPlugin implements DumperPlugin {
-        @Override
-        public String getName() {
-            return null;
-        }
-
-        @Override
-        public void dump(DumperContext dumpContext) throws DumpException {
-
-        }
-    }
+//    private class MyDumperPlugin implements DumperPlugin {
+//        @Override
+//        public String getName() {
+//            return null;
+//        }
+//
+//        @Override
+//        public void dump(DumperContext dumpContext) throws DumpException {
+//
+//        }
+//    }
 
 }
