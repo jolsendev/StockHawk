@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_activity_settings, menu);
-        MenuItem item = menu.findItem(R.id.action_change_units);
-        setDisplayModeMenuItemIcon(item);
+//        getMenuInflater().inflate(R.menu.main_activity_settings, menu);
+//        MenuItem item = menu.findItem(R.id.action_change_units);
+//        setDisplayModeMenuItemIcon(item);
         return true;
     }
 
