@@ -1,20 +1,23 @@
 package com.udacity.stockhawk.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.udacity.stockhawk.R;
+import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.fragments.StockFragment;
 
 //import com.facebook.stetho.DumperPluginsProvider;
 //import com.facebook.stetho.Stetho;
 //import com.facebook.stetho.dumpapp.DumpException;
 //import com.facebook.stetho.dumpapp.DumperContext;
 //import com.facebook.stetho.dumpapp.DumperPlugin;
-import com.udacity.stockhawk.R;
-import com.udacity.stockhawk.data.PrefUtils;
-import com.udacity.stockhawk.fragments.StockFragment;
 
 public class MainActivity extends AppCompatActivity implements StockFragment.Callback
 {
@@ -73,6 +76,14 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
 
     @Override
     public void onStockFragmentInteraction(Uri uri) {
+        Toast.makeText(this, "This was clicked: STUFF!!", Toast.LENGTH_LONG).show();
+        if(mTwoPane){
+            //launch fragment
+        }else{
+            //create intent
+            Intent intent = new Intent(this, DetailActivity.class);
+            startActivity(intent);
+        }
 
     }
 

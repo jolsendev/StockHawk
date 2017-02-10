@@ -135,13 +135,14 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
 
 
         getLoaderManager().initLoader(STOCK_LOADER, null, this);
-        adapter = new StockAdapter(getContext(), this);
+        adapter = new StockAdapter(getContext(), this); //set the listener
         ButterKnife.bind(this, view);
         QuoteSyncJob.initialize(getContext());
         stockRecyclerView.setAdapter(adapter);
         stockRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setRefreshing(true);
+
         onRefresh();
         // Inflate the layout for this fragment
 
@@ -202,6 +203,8 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     @Override
     public void onClick(String symbol) {
         Timber.d("Symbol clicked: %s", symbol);
+        Uri uri = Contract.Quote.makeUriForStock(symbol);
+        ((Callback)getActivity()).onStockFragmentInteraction(uri);
     }
 
 
