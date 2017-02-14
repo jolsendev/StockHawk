@@ -12,9 +12,9 @@ android {
 
     defaultConfig {
         applicationId "com.udacity.stockhawk"
-        minSdkVersion 21
+        minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
+        versionCode
         versionName "1.0"
         multiDexEnabled true
     }

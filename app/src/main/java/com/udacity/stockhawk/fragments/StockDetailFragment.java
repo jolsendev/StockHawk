@@ -1,8 +1,6 @@
 package com.udacity.stockhawk.fragments;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,36 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 
-import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.LinkedHashMultimap;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.adapters.StockDetailAdapter;
-import com.udacity.stockhawk.chart_helpers.StockXAxesFormater;
-import com.udacity.stockhawk.data.Contract;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.LinkedHashMap;
-import java.util.Set;
-import java.util.TreeMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,10 +38,10 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
 
     private Callback mListener;
 
-    private StockDetailAdapter mAdapter;
+    private StockDetailAdapter mDetailAdapter;
     private Uri mQuoteUri;
     private View view;
-    private HorizontalScrollView mChartHorizontalScrollView;
+    private RecyclerView chartRecyclerView;
 
 
     public StockDetailFragment() {
@@ -90,7 +66,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mAdapter = new StockDetailAdapter(getContext(), null, 0);
+        mDetailAdapter = new StockDetailAdapter(getContext(), null, 0);
         getLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
@@ -115,7 +91,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         // Inflate the layout for this fragment
         //
         view = inflater.inflate(R.layout.content_detail, container, false);
-
+        chartRecyclerView = (RecyclerView) view.findViewById(R.id.chart_recycler_view);
         return view;
     }
 
@@ -209,13 +185,10 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         }
     }
 
-
     @Override
-    public void onLoaderReset(Loader loader) {
-        mAdapter.swapCursor(null);
+    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
-
 
 
     /**
