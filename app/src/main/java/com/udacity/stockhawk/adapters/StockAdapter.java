@@ -1,4 +1,4 @@
-package com.udacity.stockhawk.ui;
+package com.udacity.stockhawk.adapters;
 
 
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
@@ -114,6 +113,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
 
 
     public interface StockAdapterOnClickHandler {
+        String hold = "";
         void onClick(String symbol);
     }
 

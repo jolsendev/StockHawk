@@ -1,6 +1,8 @@
 package com.udacity.stockhawk.data;
 
 
+import android.content.ContentResolver;
+import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -18,7 +20,12 @@ public final class Contract {
 
     @SuppressWarnings("unused")
     public static final class Quote implements BaseColumns {
+//        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE+"/"+CONTENT_AUTHORITY+"/"+PATH_MOVIE;
 
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE+"/"+AUTHORITY+"/"+PATH_QUOTE;
+        //        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE+"/"+CONTENT_AUTHORITY+"/"+PATH_MOVIE;
+
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE+"/"+AUTHORITY+"/"+PATH_QUOTE_WITH_SYMBOL;
         public static final Uri URI = BASE_URI.buildUpon().appendPath(PATH_QUOTE).build();
         public static final String COLUMN_SYMBOL = "symbol";
         public static final String COLUMN_PRICE = "price";
@@ -45,9 +52,10 @@ public final class Contract {
             return URI.buildUpon().appendPath(symbol).build();
         }
 
-        static String getStockFromUri(Uri queryUri) {
+        public static String getStockFromUri(Uri queryUri) {
             return queryUri.getLastPathSegment();
         }
+
 
 
     }

@@ -80,6 +80,18 @@ public class StockProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
+
+        final int match = uriMatcher.match(uri);
+        switch(match){
+            case QUOTE:{
+                return Contract.Quote.CONTENT_TYPE;
+            }
+            case QUOTE_FOR_SYMBOL:{
+                return Contract.Quote.CONTENT_ITEM_TYPE;
+            }
+            default:
+                break;
+        }
         return null;
     }
 

@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -25,11 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.udacity.stockhawk.R;
+import com.udacity.stockhawk.adapters.StockDetailAdapter;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
 import com.udacity.stockhawk.ui.MainActivity;
-import com.udacity.stockhawk.ui.StockAdapter;
+import com.udacity.stockhawk.adapters.StockAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,6 +70,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
 
     private Callback mCallback;
     private Toolbar mToolBar;
+    private ImageView mImageView;
 
     public StockFragment() {
         // Required empty public constructor
@@ -131,26 +132,30 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
 
         mToolBar = (Toolbar)view.findViewById(R.id.toolbar);
         ((MainActivity)getActivity()).setSupportActionBar(mToolBar);
-        ((MainActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
-        final ImageView dollarSignIconView = (ImageView)view.findViewById(R.id.action_change_units);
+        ((MainActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         getLoaderManager().initLoader(STOCK_LOADER, null, this);
-        adapter = new StockAdapter(getContext(), this);
+        adapter = new StockAdapter(getContext(), this); //set the listener
         ButterKnife.bind(this, view);
         QuoteSyncJob.initialize(getContext());
         stockRecyclerView.setAdapter(adapter);
         stockRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setRefreshing(true);
+
         onRefresh();
-        setIcon(dollarSignIconView);
-        dollarSignIconView.setOnClickListener(new View.OnClickListener() {
+        // Inflate the layout for this fragment
+
+        mImageView = (ImageView)view.findViewById(R.id.action_change_units);
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setIcon(dollarSignIconView);
+                setIcon(mImageView);
             }
         });
-        // Inflate the layout for this fragment
+
         return view;
     }
 
@@ -199,12 +204,9 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     @Override
     public void onClick(String symbol) {
         Timber.d("Symbol clicked: %s", symbol);
+        Uri uri = Contract.Quote.makeUriForStock(symbol);
+        ((Callback)getActivity()).onStockFragmentInteraction(uri);
     }
-
-
-
-
-
 
     /**
      * Check the device to make sure it has the Google Play Services APK. If
@@ -235,26 +237,26 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     }
 
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//
-//        if (id == R.id.action_change_units) {
-//            PrefUtils.toggleDisplayMode(getContext());
-//            setDisplayModeMenuItemIcon(item);
-//            adapter.notifyDataSetChanged();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//    private void setDisplayModeMenuItemIcon(MenuItem item) {
-//        if (PrefUtils.getDisplayMode(getContext())
-//                .equals(getString(R.string.pref_display_mode_absolute_key))) {
-//            item.setIcon(R.drawable.ic_percentage);
-//        } else {
-//            item.setIcon(R.drawable.ic_dollar);
-//        }
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_change_units) {
+            PrefUtils.toggleDisplayMode(getContext());
+            setDisplayModeMenuItemIcon(item);
+            adapter.notifyDataSetChanged();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void setDisplayModeMenuItemIcon(MenuItem item) {
+        if (PrefUtils.getDisplayMode(getContext())
+                .equals(getString(R.string.pref_display_mode_absolute_key))) {
+            item.setIcon(R.drawable.ic_percentage);
+        } else {
+            item.setIcon(R.drawable.ic_dollar);
+        }
+    }
     public void addStock(String symbol) {
         if (symbol != null && !symbol.isEmpty()) {
             if (networkUp()) {
@@ -290,23 +292,21 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
         }
     }
 
-    public void setIcon(ImageView dollarSignIconView) {
-        String pref = PrefUtils.getDisplayMode(getContext());
-        Boolean isTrue = pref.equals(getString(R.string.pref_display_mode_absolute_key));
-        if (!isTrue) {
-            dollarSignIconView.setBackgroundResource(R.drawable.ic_percentage);
+    public void setIcon(ImageView imageView) {
+        if(PrefUtils.getDisplayMode(getContext()).equals(getString(R.string.pref_display_mode_absolute_key))){
+            imageView.setBackgroundResource(R.drawable.ic_percentage);
+            PrefUtils.toggleDisplayMode(getContext());
             dataChanged();
-        } else {
-            dollarSignIconView.setBackgroundResource(R.drawable.ic_dollar);
+        }else if(PrefUtils.getDisplayMode(getContext()).equals(getString(R.string.pref_display_mode_percentage_key))){
+            imageView.setBackgroundResource(R.drawable.ic_dollar);
+            PrefUtils.toggleDisplayMode(getContext());
             dataChanged();
         }
-
     }
 
     private void dataChanged() {
         if(adapter != null){
             adapter.notifyDataSetChanged();
-            PrefUtils.toggleDisplayMode(getContext());
         }
     }
 

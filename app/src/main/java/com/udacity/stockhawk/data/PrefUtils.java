@@ -2,9 +2,12 @@ package com.udacity.stockhawk.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import com.udacity.stockhawk.R;
+import com.udacity.stockhawk.ui.DetailActivity;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -88,4 +91,19 @@ public final class PrefUtils {
         editor.apply();
     }
 
+
+    public static String getStockHistory(DetailActivity mContext, Uri uri) {
+        String historyString = "";
+        Cursor cur = mContext.getContentResolver().query(
+                uri, //URI
+                null, //projection
+                null, //selection
+                null, //selection args
+                null  //sort orders
+        );
+        if(cur.moveToFirst()){
+            historyString = cur.getString(Contract.Quote.POSITION_HISTORY);
+        }
+        return  historyString;
+    }
 }
