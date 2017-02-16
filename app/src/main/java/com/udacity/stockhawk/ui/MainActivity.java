@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
         
 
         setContentView(R.layout.activity_main);
-        if(findViewById(R.id.detail_container)!=null){
+        if(findViewById(R.id.detail_layout)!=null){
             mTwoPane = true;
 
         }else{

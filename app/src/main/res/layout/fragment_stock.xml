@@ -13,7 +13,6 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingEnd="@dimen/activity_horizontal_margin"
-
         >
         <TextView
             android:layout_width="wrap_content"
@@ -54,9 +53,7 @@
             android:layout_height="match_parent"
             android:paddingStart="@dimen/activity_horizontal_margin"
             android:paddingEnd="@dimen/activity_horizontal_margin"
-
             />
-
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

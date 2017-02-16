@@ -31,7 +31,6 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final int QUOTE_ADAPTER = 0;
     private static final String ARG_PARAM1 = "param1";
-    LineChart lineChart;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -82,6 +81,12 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().initLoader(QUOTE_ADAPTER, null, this);
+    }
+
     /**
      *
      * 6/2/2017,64.00\n30/1/2017,63.68\n23/1/2017,65.779999\n17/1/2017,62.740002\n9/1/2017,62.700001\n3/1/2017,62.84\n27/12/2016,62.139999\n19/12/2016,63.240002\n12/12/2016,62.299999\n5/12/2016,61.970001\n28/11/2016,59.25\n21/11/2016,60.529999\n14/11/2016,60.349998\n7/11/2016,59.02\n31/10/2016,58.709999\n24/10/2016,59.869999\n17/10/2016,59.66\n10/10/2016,57.419998\n3/10/2016,57.799999\n26/9/2016,57.599998\n19/9/2016,57.43\n12/9/2016,57.25\n6/9/2016,56.209999\n29/8/2016,57.669998\n22/8/2016,58.029999\n15/8/2016,57.619999\n8/8/2016,57.939999\n1/8/2016,57.959999\n25/7/2016,56.68\n18/7/2016,56.57\n11/7/2016,53.700001\n5/7/2016,52.299999\n27/6/2016,51.16\n20/6/2016,49.830002\n13/6/2016,50.130001\n6/6/2016,51.48\n31/5/2016,51.790001\n23/5/2016,52.32\n16/5/2016,50.619999\n9/5/2016,51.080002\n2/5/2016,50.389999\n25/4/2016,49.869999\n18/4/2016,51.779999\n11/4/2016,55.650002\n4/4/2016,54.419998\n28/3/2016,55.57\n21/3/2016,54.209999\n14/3/2016,53.490002\n7/3/2016,53.07\n29/2/2016,52.029999\n22/2/2016,51.299999\n16/2/2016,51.82\n8/2/2016,50.50\n1/2/2016,50.16\n25/1/2016,55.09\n19/1/2016,52.290001\n11/1/2016,50.990002\n4/1/2016,52.330002\n28/12/2015,55.48\n21/12/2015,55.669998\n14/12/2015,54.130001\n7/12/2015,54.060001\n30/11/2015,55.91\n23/11/2015,53.93\n16/11/2015,54.189999\n9/11/2015,52.84\n2/11/2015,54.919998\n26/10/2015,52.639999\n19/10/2015,52.869999\n12/10/2015,47.509998\n5/10/2015,47.110001\n28/9/2015,45.57\n21/9/2015,43.939999\n14/9/2015,43.48\n8/9/2015,43.48\n31/8/2015,42.610001\n24/8/2015,43.93\n17/8/2015,43.07\n10/8/2015,47.00\n3/8/2015,46.740002\n27/7/2015,46.700001\n20/7/2015,45.939999\n13/7/2015,46.619999\n6/7/2015,44.610001\n29/6/2015,44.400002\n22/6/2015,45.259998\n15/6/2015,46.099998\n8/6/2015,45.970001\n1/6/2015,46.139999\n26/5/2015,46.860001\n18/5/2015,46.900002\n11/5/2015,48.299999\n4/5/2015,47.75\n27/4/2015,48.66\n20/4/2015,47.869999\n13/4/2015,41.619999\n6/4/2015,41.720001\n30/3/2015,40.290001\n23/3/2015,40.970001\n16/3/2015,42.880001\n9/3/2015,41.380001\n2/3/2015,42.360001\n23/2/2015,43.849998\n17/2/2015,43.860001\n13/2/2015,43.869999\n
@@ -91,11 +96,11 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //
-        view = inflater.inflate(R.layout.content_detail, container, false);
+        setHasOptionsMenu(false);
+        view = inflater.inflate(R.layout.activity_detail, container, false);
         chartRecyclerView = (RecyclerView) view.findViewById(R.id.chart_recycler_view);
         mDetailAdapter = new StockDetailAdapter(getContext(), null, 0);
-        chartRecyclerView.setAdapter(mDetailAdapter);
-        chartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         return view;
     }
 
@@ -133,6 +138,8 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
                 //mAdapter.swapCursor(cursor);
                 if(cursor.moveToFirst()){
                     if(mDetailAdapter != null){
+                        chartRecyclerView.setAdapter(mDetailAdapter);
+                        chartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                         mDetailAdapter.setCursor(cursor);
                     }
 

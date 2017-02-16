@@ -21,8 +21,8 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         if(savedInstanceState == null){
             Uri uri = getIntent().getData();
@@ -30,7 +30,7 @@ public class DetailActivity extends AppCompatActivity {
             String stockHistory = PrefUtils.getStockHistory(mContext,uri);
             StockDetailFragment details = new StockDetailFragment().newInstance(stockHistory);
             //details.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction().replace(R.id.detail_layout, details, "fragTag").commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.detail_layout, details, "fragTag").commit();
         }
 
 
