@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.fragments.StockDetailFragment;
 import com.udacity.stockhawk.fragments.StockFragment;
 
 import com.facebook.stetho.DumperPluginsProvider;
@@ -75,13 +76,16 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
     }
 
     @Override
-    public void onStockFragmentInteraction(Uri uri) {
+    public void onStockFragmentInteraction(Uri uri, int position) {
         if(mTwoPane){
             //launch fragment
         }else{
             //create intent
             Intent intent = new Intent(this, DetailActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt(StockDetailFragment.POSITION, position);
             intent.setData(uri);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
 

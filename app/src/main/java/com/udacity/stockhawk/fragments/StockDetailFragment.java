@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.github.mikephil.charting.charts.LineChart;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.adapters.StockDetailAdapter;
+import com.udacity.stockhawk.data.Contract;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +32,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final int QUOTE_ADAPTER = 0;
     private static final String ARG_PARAM1 = "param1";
+    public static final String POSITION = "position";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -42,6 +44,9 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     private Uri mQuoteUri;
     private View view;
     private RecyclerView chartRecyclerView;
+    private String stock;
+    private Uri mQuoteUri2;
+    private int mPosition;
 
 
     public StockDetailFragment() {
@@ -75,9 +80,13 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mQuoteUri = getActivity().getIntent().getData();
+        stock = Contract.Quote.getStockFromUri(mQuoteUri);
+        mQuoteUri = Contract.Quote.URI;
+        Bundle extra  = getActivity().getIntent().getExtras();
+        mPosition = extra.getInt(POSITION);
 
         if (getArguments() != null) {
-            //mParam1 = getArguments().getString(ARG_PARAM1);
+
         }
     }
 
@@ -116,14 +125,10 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         //(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
         switch (id){
             case QUOTE_ADAPTER:{
-                cursor = new CursorLoader(
-                        getActivity(),
-                        mQuoteUri,
-                        null,
-                        null,
-                        null, //selection args (Symbol)
-                        null
-                );
+                return new CursorLoader(getContext(),
+                        Contract.Quote.URI,
+                        Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
+                        null, null, Contract.Quote.COLUMN_SYMBOL);
             }
         }
         return cursor;
@@ -135,17 +140,11 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         switch (id){
             case QUOTE_ADAPTER:{
 
-                //mAdapter.swapCursor(cursor);
-                if(cursor.moveToFirst()){
-                    if(mDetailAdapter != null){
-                        chartRecyclerView.setAdapter(mDetailAdapter);
-                        chartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                        mDetailAdapter.setCursor(cursor);
-                    }
-
-
-                }
-
+                chartRecyclerView.setAdapter(mDetailAdapter);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                linearLayoutManager.scrollToPosition(mPosition);
+                chartRecyclerView.setLayoutManager(linearLayoutManager);
+                mDetailAdapter.setCursor(cursor);
 
             }
         }

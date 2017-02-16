@@ -71,6 +71,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     private Callback mCallback;
     private Toolbar mToolBar;
     private ImageView mImageView;
+    private int mPosition;
 
     public StockFragment() {
         // Required empty public constructor
@@ -201,12 +202,13 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
         adapter.setCursor(null);
     }
 
-    @Override
-    public void onClick(String symbol) {
-        Timber.d("Symbol clicked: %s", symbol);
-        Uri uri = Contract.Quote.makeUriForStock(symbol);
-        ((Callback)getActivity()).onStockFragmentInteraction(uri);
-    }
+//    @Override
+//    public void onClick(String symbol) {
+//        Timber.d("Symbol clicked: %s", symbol);
+//
+//        Uri uri = Contract.Quote.makeUriForStock(symbol);
+//        ((Callback)getActivity()).onStockFragmentInteraction(uri, mPosition);
+//    }
 
     /**
      * Check the device to make sure it has the Google Play Services APK. If
@@ -310,6 +312,14 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
         }
     }
 
+    @Override
+    public void onClick(String symbol, int position) {
+        Timber.d("Symbol clicked: %s", symbol);
+
+        Uri uri = Contract.Quote.makeUriForStock(symbol);
+        ((Callback)getActivity()).onStockFragmentInteraction(uri, position);
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -323,6 +333,6 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
      */
     public interface Callback {
         // TODO: Update argument type and name
-        void onStockFragmentInteraction(Uri uri);
+        void onStockFragmentInteraction(Uri uri, int position);
     }
 }

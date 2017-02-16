@@ -52,10 +52,10 @@ public final class Contract {
             return URI.buildUpon().appendPath(symbol).build();
         }
 
-        public static String getStockFromUri(Uri queryUri) {
+        public static String getStockFromUri(Uri queryUri)
+        {
             return queryUri.getLastPathSegment();
         }
-
 
 
     }

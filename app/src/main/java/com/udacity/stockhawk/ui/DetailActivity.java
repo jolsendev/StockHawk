@@ -25,11 +25,7 @@ public class DetailActivity extends AppCompatActivity {
 //        setSupportActionBar(toolbar);
 
         if(savedInstanceState == null){
-            Uri uri = getIntent().getData();
-            mContext = this;
-            String stockHistory = PrefUtils.getStockHistory(mContext,uri);
-            StockDetailFragment details = new StockDetailFragment().newInstance(stockHistory);
-            //details.setArguments(getIntent().getExtras());
+            StockDetailFragment details = new StockDetailFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.detail_layout, details, "fragTag").commit();
         }
 
