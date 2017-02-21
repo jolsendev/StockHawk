@@ -13,8 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.adapters.StockDetailAdapter;
 import com.udacity.stockhawk.data.Contract;
@@ -27,7 +28,7 @@ import com.udacity.stockhawk.data.Contract;
  * Use the {@link StockDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StockDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class StockDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final int QUOTE_ADAPTER = 0;
@@ -47,6 +48,8 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     private String stock;
     private Uri mQuoteUri2;
     private int mPosition;
+    private Button oneMonth, sixMonth, oneYear;
+    private Uri mUri;
 
 
     public StockDetailFragment() {
@@ -79,9 +82,9 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mQuoteUri = getActivity().getIntent().getData();
-        stock = Contract.Quote.getStockFromUri(mQuoteUri);
-        mQuoteUri = Contract.Quote.URI;
+        mUri = getActivity().getIntent().getData();
+        stock = Contract.Quote.getStockFromUri(mUri);
+        mUri = Contract.Quote.URI;
         Bundle extra  = getActivity().getIntent().getExtras();
         mPosition = extra.getInt(POSITION);
 
@@ -110,6 +113,15 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         chartRecyclerView = (RecyclerView) view.findViewById(R.id.chart_recycler_view);
         mDetailAdapter = new StockDetailAdapter(getContext(), null, 0);
 
+        oneMonth = (Button) view.findViewById(R.id.btn_one_month);
+        sixMonth = (Button) view.findViewById(R.id.btn_six_months);
+        oneYear = (Button) view.findViewById(R.id.btn_one_year);
+
+        oneMonth.setOnClickListener(this);
+        sixMonth.setOnClickListener(this);
+        oneYear.setOnClickListener(this);
+
+
         return view;
     }
 
@@ -126,7 +138,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         switch (id){
             case QUOTE_ADAPTER:{
                 return new CursorLoader(getContext(),
-                        Contract.Quote.URI,
+                        mUri,
                         Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
                         null, null, Contract.Quote.COLUMN_SYMBOL);
             }
@@ -139,13 +151,11 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         int id = loader.getId();
         switch (id){
             case QUOTE_ADAPTER:{
-
                 chartRecyclerView.setAdapter(mDetailAdapter);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                 linearLayoutManager.scrollToPosition(mPosition);
                 chartRecyclerView.setLayoutManager(linearLayoutManager);
                 mDetailAdapter.setCursor(cursor);
-
             }
         }
     }
@@ -154,6 +164,35 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     public void onLoaderReset(Loader<Cursor> loader) {
         mDetailAdapter.setCursor(null);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.btn_one_month:{
+                Toast.makeText(getContext(), "One month button", Toast.LENGTH_SHORT).show();
+                mUri = Contract.Quote.URI.buildUpon().appendPath("YHOO/one_month").build();
+                restartLoader();
+                break;
+            }
+            case R.id.btn_six_months:{
+                Toast.makeText(getContext(), "Six month button", Toast.LENGTH_SHORT).show();
+                mUri = Contract.Quote.URI.buildUpon().appendPath("YHOO/six_months").build();
+                restartLoader();
+                break;
+            }
+            case R.id.btn_one_year:{
+                Toast.makeText(getContext(), "One year button", Toast.LENGTH_SHORT).show();
+                mUri = Contract.Quote.URI;
+                restartLoader();
+                break;
+            }
+        }
+    }
+
+    private void restartLoader() {
+        getLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
     }
 
 

@@ -15,6 +15,8 @@ public class StockProvider extends ContentProvider {
 
     private static final int QUOTE = 100;
     private static final int QUOTE_FOR_SYMBOL = 101;
+    private static final int HISTORY_ONE_MONTH = 102;
+    private static final int HISTORY_SIX_MONTHS = 103;
 
     private static final UriMatcher uriMatcher = buildUriMatcher();
 
@@ -24,6 +26,8 @@ public class StockProvider extends ContentProvider {
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         matcher.addURI(Contract.AUTHORITY, Contract.PATH_QUOTE, QUOTE);
         matcher.addURI(Contract.AUTHORITY, Contract.PATH_QUOTE_WITH_SYMBOL, QUOTE_FOR_SYMBOL);
+        matcher.addURI(Contract.AUTHORITY, Contract.Quote.QUOTE_HISTORY_SIX_MONTH, HISTORY_SIX_MONTHS);
+        matcher.addURI(Contract.AUTHORITY, Contract.Quote.QUOTE_HISTORY_ONE_MONTH, HISTORY_ONE_MONTH);
         return matcher;
     }
 
@@ -53,6 +57,32 @@ public class StockProvider extends ContentProvider {
                 );
                 break;
 
+
+            case HISTORY_ONE_MONTH:{
+                returnCursor = db.query(
+                        Contract.Quote.TABLE_NAME,
+                        projection,
+                        Contract.Quote.COLUMN_SYMBOL + " = ?",
+                        new String[]{Contract.Quote.getStockFromUri(uri)},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case HISTORY_SIX_MONTHS:{
+                returnCursor = db.query(
+                        Contract.Quote.TABLE_NAME,
+                        projection,
+                        Contract.Quote.COLUMN_SYMBOL + " = ?",
+                        new String[]{Contract.Quote.getStockFromUri(uri)},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+
             case QUOTE_FOR_SYMBOL:
                 returnCursor = db.query(
                         Contract.Quote.TABLE_NAME,
@@ -63,8 +93,8 @@ public class StockProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
-
                 break;
+
             default:
                 throw new UnsupportedOperationException("Unknown URI:" + uri);
         }
@@ -82,12 +112,19 @@ public class StockProvider extends ContentProvider {
     public String getType(@NonNull Uri uri) {
 
         final int match = uriMatcher.match(uri);
+
         switch(match){
             case QUOTE:{
                 return Contract.Quote.CONTENT_TYPE;
             }
             case QUOTE_FOR_SYMBOL:{
                 return Contract.Quote.CONTENT_ITEM_TYPE;
+            }
+            case HISTORY_ONE_MONTH:{
+                return Contract.Quote.CONTENT_TYPE;
+            }
+            case HISTORY_SIX_MONTHS:{
+                return Contract.Quote.CONTENT_TYPE;
             }
             default:
                 break;
@@ -118,7 +155,6 @@ public class StockProvider extends ContentProvider {
         if (context != null){
             context.getContentResolver().notifyChange(uri, null);
         }
-
         return returnUri;
     }
 
@@ -158,7 +194,6 @@ public class StockProvider extends ContentProvider {
                 context.getContentResolver().notifyChange(uri, null);
             }
         }
-
         return rowsDeleted;
     }
 
@@ -198,7 +233,5 @@ public class StockProvider extends ContentProvider {
             default:
                 return super.bulkInsert(uri, values);
         }
-
-
     }
 }

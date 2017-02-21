@@ -20,13 +20,14 @@ public final class Contract {
 
     @SuppressWarnings("unused")
     public static final class Quote implements BaseColumns {
-//        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE+"/"+CONTENT_AUTHORITY+"/"+PATH_MOVIE;
 
         public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE+"/"+AUTHORITY+"/"+PATH_QUOTE;
-        //        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE+"/"+CONTENT_AUTHORITY+"/"+PATH_MOVIE;
-
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE+"/"+AUTHORITY+"/"+PATH_QUOTE_WITH_SYMBOL;
+        static final String QUOTE_HISTORY_ONE_MONTH = "quote/*/one_month";
+        static final String QUOTE_HISTORY_SIX_MONTH = "quote/*/six_months";
         public static final Uri URI = BASE_URI.buildUpon().appendPath(PATH_QUOTE).build();
+        public static final Uri URI_SIX_MONTHS = URI.buildUpon().appendPath(QUOTE_HISTORY_SIX_MONTH).build();
+        public static final Uri URI_ONE_MONTHS = URI.buildUpon().appendPath(QUOTE_HISTORY_ONE_MONTH).build();
         public static final String COLUMN_SYMBOL = "symbol";
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_ABSOLUTE_CHANGE = "absolute_change";
