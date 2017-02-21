@@ -116,7 +116,6 @@ public final class PrefUtils {
 
     public static void setDateRangePreference(Context context, String dateRangePreference){
         String key = context.getString(R.string.pref_quote_date_range_key);
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(key, dateRangePreference);
