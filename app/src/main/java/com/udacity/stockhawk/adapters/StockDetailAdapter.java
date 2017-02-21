@@ -73,13 +73,11 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
         String[] splitRawData = rawHistData.split("@");
         String[] reverseParseRawData = reverseData(splitRawData);
 
-
         stockDateIndex = new LinkedHashMap<>();
 
         //
 
         yAxesQuote = new ArrayList<>();
-
 
         ArrayList<Entry> yAxesQuote = getEntries(reverseParseRawData.length, stockDateIndex, reverseParseRawData);
 
@@ -128,28 +126,24 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
     private boolean dataInPrefDateRange(String[] data) {
         //get Prefered date range
         //if data[0] is in range return true
-        SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd/MM/yyyy")  ;
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date date = null;
         try {
             date = inputDateFormat.parse(data[0]);
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(date);
-//        cal.add(Calendar.DATE, -30);
-//        Date dateBefore30Days = cal.getTime();
-//
-//        if(date.before(dateBefore30Days)) {
-//            // In between
-//            System.out.println("Date before: "+date);
-//        }
 
+        int prefRange = 30;
+        //setup preference for 1m, 6m, 1y
 
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, -prefRange);
+        Date dateBefore30Days = cal.getTime();
 
-
-        return true;
+        if(date.after(dateBefore30Days)){
+            return true;
+        }else{return false;}
     }
 
     private String[] reverseData(String[] splitRawData) {
