@@ -1,5 +1,7 @@
 package com.udacity.stockhawk.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.adapters.StockDetailAdapter;
 import com.udacity.stockhawk.data.Contract;
+import com.udacity.stockhawk.data.PrefUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -168,6 +171,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onClick(View v) {
+        String sharedPref = PrefUtils.getDateRangePreference();
         int id = v.getId();
         switch (id){
             case R.id.btn_one_month:{

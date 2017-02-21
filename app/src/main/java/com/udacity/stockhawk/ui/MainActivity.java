@@ -7,21 +7,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
-import com.udacity.stockhawk.R;
-import com.udacity.stockhawk.data.PrefUtils;
-import com.udacity.stockhawk.fragments.StockDetailFragment;
-import com.udacity.stockhawk.fragments.StockFragment;
 
 import com.facebook.stetho.DumperPluginsProvider;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.dumpapp.DumpException;
 import com.facebook.stetho.dumpapp.DumperContext;
 import com.facebook.stetho.dumpapp.DumperPlugin;
+import com.udacity.stockhawk.R;
+import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.fragments.StockDetailFragment;
+import com.udacity.stockhawk.fragments.StockFragment;
 
 public class MainActivity extends AppCompatActivity implements StockFragment.Callback
 {
+
+    public static final String QUOTE_DATE_RANGE = "pref_quote_date_range";
     private boolean mTwoPane;
     public static String STOCK_FRAGMENT = "sf";
 

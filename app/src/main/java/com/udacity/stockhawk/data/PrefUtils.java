@@ -106,4 +106,20 @@ public final class PrefUtils {
         }
         return  historyString;
     }
+
+    public static String getDateRangePreference(Context context) {
+        String key = context.getString(R.string.pref_quote_date_range_key);
+        String defaultValue = context.getString(R.string.pref_quote_date_range);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(key, defaultValue);
+    }
+
+    public static void setDateRangePreference(Context context, String dateRangePreference){
+        String key = context.getString(R.string.pref_quote_date_range_key);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, dateRangePreference);
+        editor.apply();
+    }
 }
