@@ -62,8 +62,8 @@ public class StockProvider extends ContentProvider {
                 returnCursor = db.query(
                         Contract.Quote.TABLE_NAME,
                         projection,
-                        Contract.Quote.COLUMN_SYMBOL + " = ?",
-                        new String[]{Contract.Quote.getStockFromUri(uri)},
+                        null,
+                        null ,
                         null,
                         null,
                         sortOrder
@@ -74,8 +74,8 @@ public class StockProvider extends ContentProvider {
                 returnCursor = db.query(
                         Contract.Quote.TABLE_NAME,
                         projection,
-                        Contract.Quote.COLUMN_SYMBOL + " = ?",
-                        new String[]{Contract.Quote.getStockFromUri(uri)},
+                        null,
+                        null,
                         null,
                         null,
                         sortOrder

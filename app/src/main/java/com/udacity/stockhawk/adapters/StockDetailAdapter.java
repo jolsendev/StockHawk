@@ -18,6 +18,8 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.chart_helpers.StockXAxesFormater;
 import com.udacity.stockhawk.data.Contract;
+import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.fragments.StockDetailFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,6 +44,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
     private int count;
     private ArrayList<Entry> yAxesQuote;
     private LinkedHashMap<Integer, String> stockDateIndex;
+    private int prefRange;
 
 
     public StockDetailAdapter(Context context, Object o, int i) {
@@ -57,6 +60,24 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
     public StockDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.detail_stock_chart, parent, false);
+
+        String sharedPref = PrefUtils.getDateRangePreference(mContext);
+        switch(sharedPref){
+            case StockDetailFragment.PREF_ONE_MONTH:{
+                prefRange = 30;
+                break;
+            }
+            case StockDetailFragment.PREF_SIX_MONTHS:{
+                prefRange = 180;
+                break;
+            }
+            case StockDetailFragment.PREF_ONE_YEAR:{
+                prefRange = 360;
+                break;
+            }
+            default:
+                break;
+        }
         return new StockDetailViewHolder(itemView);
     }
 
@@ -75,20 +96,16 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
 
         stockDateIndex = new LinkedHashMap<>();
 
-        //
-
         yAxesQuote = new ArrayList<>();
 
         ArrayList<Entry> yAxesQuote = getEntries(reverseParseRawData.length, stockDateIndex, reverseParseRawData);
-
-        //addQuoteToEntry(yAxesQuote, stockDateIndex);
 
         //
         LineDataSet quoteDataSet = new LineDataSet(yAxesQuote, "Quote");
         quoteDataSet.setColor(Color.GREEN);
         quoteDataSet.setDrawCircles(false);
 
-        holder.lineChart.animateY(1500);
+        //holder.lineChart.animateY(1500);
         holder.lineChart.getAxisLeft().setDrawGridLines(false);
         holder.lineChart.getXAxis().setDrawGridLines(false);
         holder.lineChart.setPinchZoom(true);
@@ -133,10 +150,6 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        int prefRange = 30;
-        //setup preference for 1m, 6m, 1y
-
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -prefRange);
         Date dateBefore30Days = cal.getTime();
