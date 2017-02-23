@@ -51,3 +51,13 @@ http://blog.nkdroidsolutions.com/android-horizontal-vertical-recyclerview-exampl
 
 Put TExtView instead of buttons inside recycler view
 Send the
+
+
+Ashesh notes
+http://stackoverflow.com/questions/29134094/recyclerview-horizontal-scroll-snap-in-center
+http://stackoverflow.com/questions/32324926/swipe-one-item-at-a-time-recyclerview
+https://developer.android.com/reference/android/support/v7/widget/PagerSnapHelper.html
+https://developer.android.com/reference/android/support/v4/view/ViewPager.html
+https://developer.android.com/training/animation/screen-slide.html
+https://www.youtube.com/watch?v=imsr8NrIAMs
+https://developer.android.com/reference/android/support/v7/widget/RecyclerView.ItemAnimator.html
