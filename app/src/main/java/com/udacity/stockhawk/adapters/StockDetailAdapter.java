@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -41,7 +40,7 @@ import butterknife.ButterKnife;
 public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.StockDetailViewHolder> {
 
 
-    private final StockDetailFragment sDF;
+    private final StockDetailFragment mSDF;
     private Cursor mCursor;
     private Context mContext;
     private String mParam1;
@@ -54,7 +53,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
 
     public StockDetailAdapter(Context context, Object o, int i, StockDetailFragment stockDetailFragment) {
         this.mContext = context;
-        sDF = stockDetailFragment;
+        mSDF = stockDetailFragment;
 
     }
 
@@ -230,35 +229,31 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
 
             switch (id){
                 case R.id.btn_one_month:{
-                    //Toast.makeText(mContext, "One month button", Toast.LENGTH_SHORT).show();
                     mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("one_month").build();
                     PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_ONE_MONTH);
-                    sDF.setPosition(this.getAdapterPosition());
-                    sDF.restartLoader();
+                    mSDF.setPosition(getAdapterPosition());
+                    mSDF.restartLoader();
                     break;
                 }
                 case R.id.btn_six_months:{
-                    //Toast.makeText(mContext, "Six month button", Toast.LENGTH_SHORT).show();
                     mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("six_months").build();
                     PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_SIX_MONTHS);
-                    sDF.setPosition(this.getAdapterPosition());
-                    sDF.restartLoader();
+                    mSDF.setPosition(getAdapterPosition());
+                    mSDF.restartLoader();
                     break;
                 }
                 case R.id.btn_one_year:{
-                    //Toast.makeText(mContext, "One year button", Toast.LENGTH_SHORT).show();
                     mUri = Contract.Quote.URI;
                     PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_ONE_YEAR);
-                    sDF.setPosition(this.getAdapterPosition());
-                    sDF.restartLoader();
+                    mSDF.setPosition(getAdapterPosition());
+                    mSDF.restartLoader();
                     break;
                 }
                 case R.id.btn_three_months:{
-                    //Toast.makeText(mContext, "Three month button", Toast.LENGTH_SHORT).show();
                     mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("three_months").build();
                     PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_THREE_MONTHS);
-                    sDF.setPosition(this.getAdapterPosition());
-                    sDF.restartLoader();
+                    mSDF.setPosition(getAdapterPosition());
+                    mSDF.restartLoader();
                     break;
                 }
             }
