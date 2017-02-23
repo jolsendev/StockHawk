@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -113,14 +115,9 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
             }
         }).attachToRecyclerView(stockRecyclerView);
 
-//        if (!checkPlayServices()) {
-//            // This is where we could either prompt a user that they should install
-//            // the latest version of Google Play Services, or add an error snackbar
-//            // that some features won't be available.
-//            Toast.makeText(getContext(), "Play services needs to be updated.", Toast.LENGTH_LONG).show();
-//        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -202,35 +199,6 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
         adapter.setCursor(null);
     }
 
-//    @Override
-//    public void onClick(String symbol) {
-//        Timber.d("Symbol clicked: %s", symbol);
-//
-//        Uri uri = Contract.Quote.makeUriForStock(symbol);
-//        ((Callback)getActivity()).onStockFragmentInteraction(uri, mPosition);
-//    }
-
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
-//    private boolean checkPlayServices() {
-//        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-//        int resultCode = apiAvailability.isGooglePlayServicesAvailable(getContext());
-//        if (resultCode != ConnectionResult.SUCCESS) {
-//            if (apiAvailability.isUserResolvableError(resultCode)) {
-//                apiAvailability.getErrorDialog(getActivity(), resultCode,
-//                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-//            } else {
-//                Log.i(LOG_TAG, "This device is not supported.");
-//                getActivity().finish();
-//            }
-//            return false;
-//        }
-//        return true;
-//    }
-
     public boolean networkUp() {
         ConnectivityManager cm =
                 (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -259,6 +227,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
             item.setIcon(R.drawable.ic_dollar);
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void addStock(String symbol) {
         if (symbol != null && !symbol.isEmpty()) {
             if (networkUp()) {
@@ -273,6 +242,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onRefresh() {
 

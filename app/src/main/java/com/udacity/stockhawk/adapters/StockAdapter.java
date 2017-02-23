@@ -122,6 +122,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         @BindView(R.id.symbol)
         TextView symbol;
 
+
         @BindView(R.id.price)
         TextView price;
 
@@ -140,6 +141,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
             cursor.moveToPosition(adapterPosition);
             int symbolColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SYMBOL);
             clickHandler.onClick(cursor.getString(symbolColumn),adapterPosition );
+
 
         }
 

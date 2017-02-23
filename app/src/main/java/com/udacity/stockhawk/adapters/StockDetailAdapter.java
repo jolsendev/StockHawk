@@ -68,6 +68,8 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.detail_stock_chart, parent, false);
 
+
+
         String sharedPref = PrefUtils.getDateRangePreference(mContext);
 
         switch(sharedPref){
@@ -110,7 +112,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
 
         yAxesQuote = new ArrayList<>();
 
-        ArrayList<Entry> yAxesQuote = getEntries(reverseParseRawData.length, stockDateIndex, reverseParseRawData);
+        ArrayList<Entry> yAxesQuote = getEntries(stockDateIndex, reverseParseRawData);
 
         //
         LineDataSet quoteDataSet = new LineDataSet(yAxesQuote, "Quote");
@@ -132,7 +134,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
         holder.lineChart.invalidate();
     }
 
-    private ArrayList<Entry> getEntries(int length, LinkedHashMap<Integer, String> stockDateIndex, String[] reverseParseRawData) {
+    private ArrayList<Entry> getEntries(LinkedHashMap<Integer, String> stockDateIndex, String[] reverseParseRawData) {
         int dataLength = reverseParseRawData.length;
         ArrayList<Entry> retEntry = new ArrayList<>();
         for(int i = 0; i <  dataLength;i++){
@@ -231,6 +233,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
                     //Toast.makeText(mContext, "One month button", Toast.LENGTH_SHORT).show();
                     mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("one_month").build();
                     PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_ONE_MONTH);
+                    sDF.setPosition(this.getAdapterPosition());
                     sDF.restartLoader();
                     break;
                 }
@@ -238,6 +241,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
                     //Toast.makeText(mContext, "Six month button", Toast.LENGTH_SHORT).show();
                     mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("six_months").build();
                     PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_SIX_MONTHS);
+                    sDF.setPosition(this.getAdapterPosition());
                     sDF.restartLoader();
                     break;
                 }
@@ -245,6 +249,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
                     //Toast.makeText(mContext, "One year button", Toast.LENGTH_SHORT).show();
                     mUri = Contract.Quote.URI;
                     PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_ONE_YEAR);
+                    sDF.setPosition(this.getAdapterPosition());
                     sDF.restartLoader();
                     break;
                 }
@@ -252,6 +257,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
                     //Toast.makeText(mContext, "Three month button", Toast.LENGTH_SHORT).show();
                     mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("three_months").build();
                     PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_THREE_MONTHS);
+                    sDF.setPosition(this.getAdapterPosition());
                     sDF.restartLoader();
                     break;
                 }
