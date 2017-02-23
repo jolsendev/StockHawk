@@ -1,7 +1,5 @@
 package com.udacity.stockhawk.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -18,39 +16,28 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
-
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.adapters.StockDetailAdapter;
 import com.udacity.stockhawk.data.Contract;
-import com.udacity.stockhawk.data.PrefUtils;
-import com.udacity.stockhawk.sync.QuoteSyncJob;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Callback} interface
- * to handle interaction events.
- * Use the {@link StockDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+public class StockDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-public class StockDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final int QUOTE_ADAPTER = 0;
+
     private static final String ARG_PARAM1 = "param1";
     public static final String POSITION = "position";
     public static final String PREF_ONE_MONTH = "one_month";
     public static final String PREF_SIX_MONTHS = "six_months";
     public static final String PREF_ONE_YEAR = "one_year";
+    public static final String PREF_THREE_MONTHS = "three_months";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private Callback mListener;
+//    private Callback mListener;
 
     private StockDetailAdapter mDetailAdapter;
     private Uri mQuoteUri;
@@ -59,7 +46,6 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     private String stock;
     private Uri mQuoteUri2;
     private int mPosition;
-    private Button oneMonth, sixMonth, oneYear;
     private Uri mUri;
 
 
@@ -136,13 +122,13 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
 
             }
         });
-        mDetailAdapter = new StockDetailAdapter(getContext(), null, 0);
-        oneMonth = (Button) view.findViewById(R.id.btn_one_month);
-        sixMonth = (Button) view.findViewById(R.id.btn_six_months);
-        oneYear = (Button) view.findViewById(R.id.btn_one_year);
-        oneMonth.setOnClickListener(this);
-        sixMonth.setOnClickListener(this);
-        oneYear.setOnClickListener(this);
+        mDetailAdapter = new StockDetailAdapter(getContext(), null, 0, this);
+//        oneMonth = (Button) view.findViewById(R.id.btn_one_month);
+//        sixMonth = (Button) view.findViewById(R.id.btn_six_months);
+//        oneYear = (Button) view.findViewById(R.id.btn_one_year);
+//        oneMonth.setOnClickListener(this);
+//        sixMonth.setOnClickListener(this);
+//        oneYear.setOnClickListener(this);
 
         return view;
     }
@@ -150,7 +136,6 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -187,36 +172,37 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         mDetailAdapter.setCursor(null);
     }
 
-    @Override
-    public void onClick(View v) {
+//    @Override
+//    public void onClick(View v) {
+//
+//        int id = v.getId();
+//        switch (id){
+//            case R.id.btn_one_month:{
+//                //Toast.makeText(getContext(), "One month button", Toast.LENGTH_SHORT).show();
+//                mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("one_month").build();
+//                PrefUtils.setDateRangePreference(getActivity(), PREF_ONE_MONTH);
+//                restartLoader();
+//                break;
+//            }
+//            case R.id.btn_six_months:{
+//                //Toast.makeText(getContext(), "Six month button", Toast.LENGTH_SHORT).show();
+//                mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("six_months").build();
+//                PrefUtils.setDateRangePreference(getActivity(), PREF_SIX_MONTHS);
+//                restartLoader();
+//                break;
+//            }
+//            case R.id.btn_one_year:{
+//                //Toast.makeText(getContext(), "One year button", Toast.LENGTH_SHORT).show();
+//                mUri = Contract.Quote.URI;
+//                PrefUtils.setDateRangePreference(getActivity(), PREF_ONE_YEAR);
+//                restartLoader();
+//                break;
+//            }
+//        }
+//    }
 
-        int id = v.getId();
-        switch (id){
-            case R.id.btn_one_month:{
-                //Toast.makeText(getContext(), "One month button", Toast.LENGTH_SHORT).show();
-                mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("one_month").build();
-                PrefUtils.setDateRangePreference(getActivity(), PREF_ONE_MONTH);
-                restartLoader();
-                break;
-            }
-            case R.id.btn_six_months:{
-                //Toast.makeText(getContext(), "Six month button", Toast.LENGTH_SHORT).show();
-                mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("six_months").build();
-                PrefUtils.setDateRangePreference(getActivity(), PREF_SIX_MONTHS);
-                restartLoader();
-                break;
-            }
-            case R.id.btn_one_year:{
-                //Toast.makeText(getContext(), "One year button", Toast.LENGTH_SHORT).show();
-                mUri = Contract.Quote.URI;
-                PrefUtils.setDateRangePreference(getActivity(), PREF_ONE_YEAR);
-                restartLoader();
-                break;
-            }
-        }
-    }
 
-    private void restartLoader() {
+    public void restartLoader() {
         getLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
     }
 
@@ -231,8 +217,8 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface Callback {
-        // TODO: Update argument type and name
-        void onStockDetailFragmentInteraction(Uri uri);
-    }
+//    public interface Callback {
+//        // TODO: Update argument type and name
+//        void restartLoader();
+//    }
 }

@@ -3,11 +3,14 @@ package com.udacity.stockhawk.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -38,6 +41,7 @@ import butterknife.ButterKnife;
 public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.StockDetailViewHolder> {
 
 
+    private final StockDetailFragment sDF;
     private Cursor mCursor;
     private Context mContext;
     private String mParam1;
@@ -45,10 +49,13 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
     private ArrayList<Entry> yAxesQuote;
     private LinkedHashMap<Integer, String> stockDateIndex;
     private int prefRange;
+    private Uri mUri;
 
 
-    public StockDetailAdapter(Context context, Object o, int i) {
+    public StockDetailAdapter(Context context, Object o, int i, StockDetailFragment stockDetailFragment) {
         this.mContext = context;
+        sDF = stockDetailFragment;
+
     }
 
     public void setCursor(Cursor cursor){
@@ -62,7 +69,9 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
                 .inflate(R.layout.detail_stock_chart, parent, false);
 
         String sharedPref = PrefUtils.getDateRangePreference(mContext);
+
         switch(sharedPref){
+
             case StockDetailFragment.PREF_ONE_MONTH:{
                 prefRange = 30;
                 break;
@@ -74,6 +83,9 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
             case StockDetailFragment.PREF_ONE_YEAR:{
                 prefRange = 360;
                 break;
+            }
+            case StockDetailFragment.PREF_THREE_MONTHS:{
+                prefRange = 90;
             }
             default:
                 break;
@@ -178,22 +190,77 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
         return count;
     }
 
-    class StockDetailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+
+    class StockDetailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.detail_line_chart)
         LineChart lineChart;
 
         @BindView(R.id.stock_text_view)
         TextView stockTextView;
 
+        @BindView(R.id.btn_one_month)
+        Button btnOneMonthButton;
+
+        @BindView(R.id.btn_three_months)
+        Button btnThreeMonthButton;
+
+        @BindView(R.id.btn_six_months)
+        Button btnSixMonth;
+
+        @BindView(R.id.btn_one_year)
+        Button btnOneYear;
+
         public StockDetailViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             //itemView.setOnClickListener(this);
+            btnOneMonthButton.setOnClickListener(this);
+            btnOneYear.setOnClickListener(this);
+            btnThreeMonthButton.setOnClickListener(this);
+            btnSixMonth.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick(View v) {
+            int id = v.getId();
 
+            switch (id){
+                case R.id.btn_one_month:{
+                    //Toast.makeText(mContext, "One month button", Toast.LENGTH_SHORT).show();
+                    mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("one_month").build();
+                    PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_ONE_MONTH);
+                    sDF.restartLoader();
+                    break;
+                }
+                case R.id.btn_six_months:{
+                    //Toast.makeText(mContext, "Six month button", Toast.LENGTH_SHORT).show();
+                    mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("six_months").build();
+                    PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_SIX_MONTHS);
+                    sDF.restartLoader();
+                    break;
+                }
+                case R.id.btn_one_year:{
+                    //Toast.makeText(mContext, "One year button", Toast.LENGTH_SHORT).show();
+                    mUri = Contract.Quote.URI;
+                    PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_ONE_YEAR);
+                    sDF.restartLoader();
+                    break;
+                }
+                case R.id.btn_three_months:{
+                    //Toast.makeText(mContext, "Three month button", Toast.LENGTH_SHORT).show();
+                    mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("three_months").build();
+                    PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_THREE_MONTHS);
+                    sDF.restartLoader();
+                    break;
+                }
+            }
         }
+    }
+
+    public interface Callback {
+        // TODO: Update argument type and name
+        void restartLoader();
     }
 }

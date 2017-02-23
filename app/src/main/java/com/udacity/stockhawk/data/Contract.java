@@ -25,9 +25,11 @@ public final class Contract {
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE+"/"+AUTHORITY+"/"+PATH_QUOTE_WITH_SYMBOL;
         static final String QUOTE_HISTORY_ONE_MONTH = "quote/*/one_month";
         static final String QUOTE_HISTORY_SIX_MONTH = "quote/*/six_months";
+        public static final String QUOTE_HISTORY_THREE_MONTHS = "quote/*/six_months";
         public static final Uri URI = BASE_URI.buildUpon().appendPath(PATH_QUOTE).build();
         public static final Uri URI_SIX_MONTHS = URI.buildUpon().appendPath(QUOTE_HISTORY_SIX_MONTH).build();
         public static final Uri URI_ONE_MONTHS = URI.buildUpon().appendPath(QUOTE_HISTORY_ONE_MONTH).build();
+        public static final Uri URI_THREE_MONTHS = URI.buildUpon().appendPath(QUOTE_HISTORY_THREE_MONTHS).build();
         public static final String COLUMN_SYMBOL = "symbol";
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_ABSOLUTE_CHANGE = "absolute_change";
@@ -48,6 +50,7 @@ public final class Contract {
                 COLUMN_HISTORY
         );
         static final String TABLE_NAME = "quotes";
+
 
         public static Uri makeUriForStock(String symbol) {
             return URI.buildUpon().appendPath(symbol).build();

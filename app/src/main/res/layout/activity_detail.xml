@@ -18,29 +18,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="2">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btn_one_month"
-            android:text="1m"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_six_months"
-            android:layout_weight="1"
-            android:text="6m"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_one_year"
-            android:layout_weight="1"
-            android:text="1y"/>
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_weight="2">-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/btn_one_month"-->
+            <!--android:text="1m"/>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/btn_six_months"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="6m"/>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/btn_one_year"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="1y"/>-->
+    <!--</LinearLayout>-->
 
 </LinearLayout>

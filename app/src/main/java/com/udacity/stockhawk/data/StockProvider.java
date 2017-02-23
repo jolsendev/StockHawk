@@ -17,6 +17,7 @@ public class StockProvider extends ContentProvider {
     private static final int QUOTE_FOR_SYMBOL = 101;
     private static final int HISTORY_ONE_MONTH = 102;
     private static final int HISTORY_SIX_MONTHS = 103;
+    private static final int HISTORY_THREE_MONTHS = 104;
 
     private static final UriMatcher uriMatcher = buildUriMatcher();
 
@@ -28,6 +29,7 @@ public class StockProvider extends ContentProvider {
         matcher.addURI(Contract.AUTHORITY, Contract.PATH_QUOTE_WITH_SYMBOL, QUOTE_FOR_SYMBOL);
         matcher.addURI(Contract.AUTHORITY, Contract.Quote.QUOTE_HISTORY_SIX_MONTH, HISTORY_SIX_MONTHS);
         matcher.addURI(Contract.AUTHORITY, Contract.Quote.QUOTE_HISTORY_ONE_MONTH, HISTORY_ONE_MONTH);
+        matcher.addURI(Contract.AUTHORITY, Contract.Quote.QUOTE_HISTORY_THREE_MONTHS, HISTORY_THREE_MONTHS);
         return matcher;
     }
 
@@ -71,6 +73,19 @@ public class StockProvider extends ContentProvider {
                 break;
             }
             case HISTORY_SIX_MONTHS:{
+                returnCursor = db.query(
+                        Contract.Quote.TABLE_NAME,
+                        projection,
+                        null,
+                        null,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+
+            case HISTORY_THREE_MONTHS:{
                 returnCursor = db.query(
                         Contract.Quote.TABLE_NAME,
                         projection,
