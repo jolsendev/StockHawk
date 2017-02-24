@@ -47,7 +47,6 @@
 
         <Button
 
-            android:background="@color/colorAccent"
             android:id="@+id/btn_one_month"
             android:paddingTop="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/activity_horizontal_margin"
@@ -55,10 +54,11 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_custom"
             android:text="1M"/>
 
         <Button
-            android:background="@color/colorAccent"
+            android:background="@drawable/button_custom"
             android:id="@+id/btn_three_months"
             android:paddingTop="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/activity_horizontal_margin"
@@ -69,7 +69,7 @@
             android:text="3M"/>
 
         <Button
-            android:background="@color/colorAccent"
+            android:background="@drawable/button_custom"
             android:id="@+id/btn_six_months"
             android:paddingTop="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/activity_horizontal_margin"
@@ -80,7 +80,7 @@
             android:text="6M"/>
 
         <Button
-            android:background="@color/colorAccent"
+            android:background="@drawable/button_custom"
             android:id="@+id/btn_one_year"
             android:paddingTop="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/activity_horizontal_margin"
