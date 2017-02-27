@@ -64,3 +64,10 @@ https://developer.android.com/reference/android/support/v7/widget/RecyclerView.I
 
 
 need FragmentStatePagerAdapter to swipe across a collection of Fragment objects:
+
+layer-list
+http://stackoverflow.com/questions/8339529/android-using-layer-list-for-button-selector/8339852#8339852
+
+git clone https://github.com/lightSky/Awesome-MaterialDesign.git
+
+git clone https://github.com/halysongoncalves/Material-Design-Example.git
