@@ -40,9 +40,10 @@ import butterknife.ButterKnife;
 public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.StockDetailViewHolder> {
 
 
+    private static final String BUTTON_SELECT_PREFERENCE = "button_select_preference";
     private final StockDetailFragment mSDF;
     private Cursor mCursor;
-    private Context mContext;
+    private static Context mContext;
     private String mParam1;
     private int count;
     private ArrayList<Entry> yAxesQuote;
@@ -70,6 +71,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
 
 
         String sharedPref = PrefUtils.getDateRangePreference(mContext);
+
 
         switch(sharedPref){
 
@@ -220,6 +222,8 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
             btnOneYear.setOnClickListener(this);
             btnThreeMonthButton.setOnClickListener(this);
             btnSixMonth.setOnClickListener(this);
+            String buttonSelectColorState = PrefUtils.getButtonSelectPreference(StockDetailAdapter.mContext,"quote", BUTTON_SELECT_PREFERENCE);
+            btnOneMonthButton.setTextColor(Color.RED);
 
         }
 
@@ -233,6 +237,8 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
                     PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_ONE_MONTH);
                     mSDF.setPosition(getAdapterPosition());
                     mSDF.restartLoader();
+                    btnOneMonthButton.setTextColor(Color.RED);
+                    //Toast.makeText(mContext, "One month btn", Toast.LENGTH_LONG).show();
                     break;
                 }
                 case R.id.btn_six_months:{

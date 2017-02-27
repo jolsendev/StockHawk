@@ -121,4 +121,18 @@ public final class PrefUtils {
         editor.putString(key, dateRangePreference);
         editor.apply();
     }
+
+    public static String getButtonSelectPreference(Context context, String quote, String range){
+        String key = quote;
+        String defaultValue = context.getString(R.string.pref_button_select_default);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(key, defaultValue);
+    }
+
+    public static void setButtonSelectPreference(Context context, String key, String value){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
 }

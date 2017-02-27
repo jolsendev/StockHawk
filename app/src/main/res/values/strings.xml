@@ -37,5 +37,6 @@
     <string name="title_activity_detail">DetailActivity</string>
     <string name="pref_quote_date_range">one_year</string>
     <string name="pref_quote_date_range_key">pref_quote_date_range</string>
+    <string name="pref_button_select_default">one_year</string>
 
 </resources>
