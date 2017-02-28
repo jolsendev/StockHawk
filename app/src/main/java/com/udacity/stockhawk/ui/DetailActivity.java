@@ -24,9 +24,14 @@ public class DetailActivity extends AppCompatActivity {
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
+
+
         if(savedInstanceState == null){
+//            Toolbar toolbar = (Toolbar)findViewById(R.id.detail_toolbar);
+//            setSupportActionBar(toolbar);
+           // getSupportActionBar().setDisplayShowTitleEnabled(false);
             StockDetailFragment details = new StockDetailFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.detail_layout, details, "fragTag").commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_layout, details, "fragTag").commit();
         }
 
 

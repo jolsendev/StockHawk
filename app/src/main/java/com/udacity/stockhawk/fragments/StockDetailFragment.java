@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -70,7 +71,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-        getLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
+        //getLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -82,6 +83,8 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         mUri = Contract.Quote.URI;
         Bundle extra  = getActivity().getIntent().getExtras();
         setPosition(extra.getInt(POSITION));
+
+        //setActionToolBar
 
         if (getArguments() != null) {
 
@@ -157,6 +160,8 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         switch (id){
             case QUOTE_ADAPTER:{
                 chartRecyclerView.setAdapter(mDetailAdapter);
+                //TabLayout tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
+
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                 linearLayoutManager.scrollToPosition(getPosition());
                 chartRecyclerView.setLayoutManager(linearLayoutManager);

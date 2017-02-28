@@ -2,8 +2,11 @@ package com.udacity.stockhawk.ui;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
                 .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
                 .build());
 
-        
 
         setContentView(R.layout.activity_main);
         if(findViewById(R.id.detail_layout)!=null){
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void addStock(String symbol) {
         StockFragment sf = (StockFragment) getSupportFragmentManager().findFragmentById(R.id.stock_fragment);
         sf.addStock(symbol);
