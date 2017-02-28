@@ -113,7 +113,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
                              Bundle savedInstanceState) {
 
         setHasOptionsMenu(false);
-        view = inflater.inflate(R.layout.activity_detail, container, false);
+        view = inflater.inflate(R.layout.fragment_detail, container, false);
         chartRecyclerView = (RecyclerView) view.findViewById(R.id.chart_recycler_view);
         chartRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override

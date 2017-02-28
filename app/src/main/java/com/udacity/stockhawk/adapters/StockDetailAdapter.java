@@ -1,5 +1,6 @@
 package com.udacity.stockhawk.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -103,6 +104,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
         return new StockDetailViewHolder(itemView);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(StockDetailAdapter.StockDetailViewHolder holder, int position) {
 
@@ -130,10 +132,11 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
         quoteDataSet.setColor(Color.GREEN);
         quoteDataSet.setDrawCircles(false);
 
-        //holder.lineChart.animateY(1500);
+        //holder.lineChart.animateY(15(00);
         holder.lineChart.getAxisLeft().setDrawGridLines(false);
         holder.lineChart.getXAxis().setDrawGridLines(false);
-        holder.lineChart.setPinchZoom(true);
+        holder.lineChart.setPinchZoom(false);
+
 
         XAxis xAxis = holder.lineChart.getXAxis();
 

@@ -41,7 +41,11 @@
         <activity
             android:name=".ui.DetailActivity"
             android:label="@string/title_activity_detail"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.udacity.stockhawk.ui.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -21,21 +21,17 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-
-
+        Toolbar toolbar = (Toolbar)findViewById(R.id.detail_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(savedInstanceState == null){
-//            Toolbar toolbar = (Toolbar)findViewById(R.id.detail_toolbar);
-//            setSupportActionBar(toolbar);
-           // getSupportActionBar().setDisplayShowTitleEnabled(false);
+
             StockDetailFragment details = new StockDetailFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.detail_layout, details, "fragTag").commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.detail_container, details, "fragTag").commit();
         }
 
 
 
     }
-
 }
