@@ -73,3 +73,10 @@ git clone https://github.com/lightSky/Awesome-MaterialDesign.git
 git clone https://github.com/halysongoncalves/Material-Design-Example.git
 
 git clone https://github.com/antonyt/InfiniteViewPager.git
+
+
+Steps for nuke
+    remote previous/next buttons and logic
+    remove recylcer view from layout
+    create basic pagerview and get working
+    implement infinitpagerview
