@@ -17,11 +17,15 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.adapters.StockDetailAdapter;
+import com.udacity.stockhawk.custom_recycler_view.SnappyRecyclerView;
 import com.udacity.stockhawk.data.Contract;
 
-public class StockDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class StockDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener, SnappyRecyclerView.Callback{
 
     // TODO: Rename parameter arguments, choose names that match
 
@@ -47,10 +51,14 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     //private int mPosition;
     private Uri mUri;
     private int position;
+    private Button btnPrevious;
+    private int cursorCount;
+    private Button btnNext;
 
     public StockDetailFragment() {
         // Required empty public constructor
     }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -70,7 +78,6 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
         //getLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
@@ -114,6 +121,10 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
 
         setHasOptionsMenu(false);
         view = inflater.inflate(R.layout.fragment_detail, container, false);
+        btnPrevious = (Button)view.findViewById(R.id.btn_previous);
+        btnPrevious.setOnClickListener(this);
+        btnNext = (Button)view.findViewById(R.id.btn_next);
+        btnNext.setOnClickListener(this);
         chartRecyclerView = (RecyclerView) view.findViewById(R.id.chart_recycler_view);
         chartRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -132,6 +143,22 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         mDetailAdapter = new StockDetailAdapter(getContext(), null, 0, this);
 
         return view;
+    }
+
+    private void setButtonEnabled() {
+        //Toast.makeText(getContext(), "position: "+position+ " cursor count: "+cursorCount, Toast.LENGTH_SHORT).show();
+        if(position == 0){
+            btnPrevious.setEnabled(false);
+        }else{
+            btnPrevious.setEnabled(true);
+            //btnNext.setEnabled(true);
+        }
+        if(position == cursorCount){
+            btnNext.setEnabled(false);
+            //btnPrevious.setEnabled(true);
+        }else{
+            btnNext.setEnabled(true);
+        }
     }
 
     @Override
@@ -157,11 +184,12 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         int id = loader.getId();
+        cursorCount = cursor.getCount();
+
         switch (id){
             case QUOTE_ADAPTER:{
+                setButtonEnabled();
                 chartRecyclerView.setAdapter(mDetailAdapter);
-                //TabLayout tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs);
-
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                 linearLayoutManager.scrollToPosition(getPosition());
                 chartRecyclerView.setLayoutManager(linearLayoutManager);
@@ -179,4 +207,37 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         getLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
     }
 
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.btn_previous:{
+                if(position > 0){
+                    position = position - 1;
+                    restartLoader();
+                }
+                break;
+            }
+            case R.id.btn_next:{
+                if(position < cursorCount){
+                    position = position + 1;
+                    restartLoader();
+                }
+                break;
+            }
+        }
+
+    }
+
+    @Override
+    public void subtractPostionRestartLoader() {
+        position--;
+        restartLoader();
+    }
+
+    @Override
+    public void addPositionRestartLoader() {
+        position++;
+        restartLoader();
+    }
 }

@@ -4,6 +4,7 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/activity_horizontal_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/detail_layout"
@@ -11,12 +12,27 @@
 
     <com.udacity.stockhawk.custom_recycler_view.SnappyRecyclerView
         android:id="@+id/chart_recycler_view"
-        android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <!--style="@style/SymbolText"-->
-    <!--style="@style/BidPriceTextStyle"-->
-    <!--style="@style/PercentChangeTextStyle"-->
+        <Button
+            android:id="@+id/btn_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Previous"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 </LinearLayout>

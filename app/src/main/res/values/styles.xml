@@ -8,8 +8,8 @@
     </style>
 
     <style name="Toolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:popupTheme" tools:targetApi="lollipop">@style/Theme.AppCompat.Light</item>
+        <!--<item name="android:background">?attr/colorPrimary</item>-->
+        <item name="android:popupTheme" tools:targetApi="lollipop">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 
     <style name="PercentChangeTextStyle">
@@ -48,12 +48,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Theme.DataRangeOptionStyle" parent="AppTheme"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:paddingTop="@dimen/activity_horizontal_margin"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        />
+    <style name="ButtonRangeStyle" parent="AppTheme">
+        <item name="android:paddingTop">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+
+    </style>
 </resources>

@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.udacity.stockhawk.fragments.StockDetailFragment;
+
 /**
  * Created by a5w5nzz on 2/24/2017.
  *
@@ -62,6 +64,7 @@ public class SnappyRecyclerView extends RecyclerView {
             if (leftEdge > screenWidth / 2) {
                 // go to next page
                 smoothScrollBy(-scrollDistanceRight, 0);
+
             } else if (rightEdge < screenWidth / 2) {
                 // go to next page
                 smoothScrollBy(scrollDistanceLeft, 0);
@@ -123,6 +126,11 @@ public class SnappyRecyclerView extends RecyclerView {
             // distance we need to scroll
 
         }
+    }
+
+    public interface Callback{
+        void subtractPostionRestartLoader();
+        void addPositionRestartLoader();
     }
 
 }

@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.RecyclerView;
+import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,8 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
 
     }
 
+
+
     public void setCursor(Cursor cursor){
         this.mCursor = cursor;
         notifyDataSetChanged();
@@ -75,10 +78,7 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.detail_stock_chart, parent, false);
 
-
-
         sharedPref = PrefUtils.getDateRangePreference(mContext);
-
 
         switch(sharedPref){
 
@@ -110,8 +110,6 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
 
         mCursor.moveToPosition(position);
         mSymbol = mCursor.getString(Contract.Quote.POSITION_SYMBOL);
-
-
 
         holder.stockTextView.setText(mSymbol);
         mParam1 = mCursor.getString(Contract.Quote.POSITION_HISTORY);
@@ -216,16 +214,16 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
         TextView stockTextView;
 
         @BindView(R.id.btn_one_month)
-        Button btnOneMonthButton;
+        TextView btnOneMonthButton;
 
         @BindView(R.id.btn_three_months)
-        Button btnThreeMonthButton;
+        TextView btnThreeMonthButton;
 
         @BindView(R.id.btn_six_months)
-        Button btnSixMonth;
+        TextView btnSixMonth;
 
         @BindView(R.id.btn_one_year)
-        Button btnOneYear;
+        TextView btnOneYear;
 
         public StockDetailViewHolder(View itemView) {
             super(itemView);
@@ -320,5 +318,6 @@ public class StockDetailAdapter extends RecyclerView.Adapter<StockDetailAdapter.
     public interface Callback {
         // TODO: Update argument type and name
         void restartLoader();
+        void setPositionAdapter(int position);
     }
 }

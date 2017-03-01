@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+
     android:id="@+id/chart_container">
 
 <LinearLayout
@@ -10,114 +11,64 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_vertical_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/stock_text_view"
+        android:textSize="25sp"
         android:gravity="center_horizontal|center_vertical"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:textColor="@color/textColor"
+        android:layout_weight="1"/>
 
     <android.support.v7.widget.CardView
+        android:layout_weight="5"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:id="@+id/cv1"
-        card_view:cardElevation="15dp"
-        android:layout_margin="6dp"
-        card_view:cardCornerRadius="3dp"
+        card_view:cardElevation="@dimen/cardview_default_elevation"
+
+        card_view:cardCornerRadius="@dimen/cardview_default_radius"
         android:layout_height="match_parent"
         >
 
         <com.github.mikephil.charting.charts.LineChart
-
             android:layout_width="match_parent"
+
             android:background="@color/md_white_1000"
             android:layout_height="300dp"
             android:id="@+id/detail_line_chart">
         </com.github.mikephil.charting.charts.LineChart>
+
     </android.support.v7.widget.CardView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="3"
         android:orientation="horizontal">
 
-        <Button
-            android:background="@color/colorAccent"
+        <TextView
             android:id="@+id/btn_one_month"
-            android:paddingTop="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/ButtonRangeStyle"
             android:text="1M"/>
 
-        <Button
-            android:background="@color/colorAccent"
+        <TextView
             android:id="@+id/btn_three_months"
-            android:paddingTop="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/ButtonRangeStyle"
             android:text="3M"/>
 
-        <Button
-            android:background="@color/colorAccent"
+        <TextView
             android:id="@+id/btn_six_months"
-            android:paddingTop="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/ButtonRangeStyle"
             android:text="6M"/>
 
-        <Button
-            android:background="@color/colorAccent"
+        <TextView
             android:id="@+id/btn_one_year"
-            android:paddingTop="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/ButtonRangeStyle"
             android:text="1Y"/>
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:columnCount="2">
-            <TextView
-                android:id="@+id/symbol"
-                android:layout_width="wrap_content"
-                android:textColor="@color/textColor"
-                android:layout_height="wrap_content"
-                tools:text="TEST1"/>
-
-            <TextView
-                android:id="@+id/price"
-                android:textColor="@color/textColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="TEST2"
-                />
-
-            <TextView
-                android:id="@+id/change"
-                android:textColor="@color/textColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="TEST3"/>
-        </GridLayout>
-
-
     </LinearLayout>
-
-
 </LinearLayout>
-
 
 
 </LinearLayout>
