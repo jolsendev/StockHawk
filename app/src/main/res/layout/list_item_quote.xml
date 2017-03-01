@@ -21,11 +21,7 @@
 
     <TextView
         android:id="@+id/symbol"
-        style="@style/StockSymbolTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="start|center_vertical"
-        tools:text="GOOG" />
+        style="@style/SymbolText"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -36,21 +32,11 @@
         <TextView
             android:id="@+id/price"
             style="@style/BidPriceTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10sp"
-            tools:text="1000.00"
-            android:layout_marginStart="10sp" />
+             />
 
         <TextView
             android:id="@+id/change"
-            style="@style/PercentChangeTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/percent_change_pill_green"
-            android:paddingStart="3dp"
-            android:paddingEnd="3dp"
-            tools:text="100%" />
+            style="@style/PercentChangeTextStyle" />
     </LinearLayout>
 </LinearLayout>
 </android.support.v7.widget.CardView>
