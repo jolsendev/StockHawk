@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.adapters.StockPagerAdapter;
-import com.udacity.stockhawk.fragments.StockDetailFragment;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -18,7 +18,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new StockPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new StockPagerAdapter(this);
         mPager.setAdapter(mPagerAdapter);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.detail_toolbar);
