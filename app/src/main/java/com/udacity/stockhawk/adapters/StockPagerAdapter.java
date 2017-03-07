@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -103,7 +102,7 @@ public class StockPagerAdapter extends PagerAdapter implements View.OnClickListe
         mLayoutInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         lineChartView = mLayoutInflater.inflate(R.layout.detail_stock_chart, container, false);
         lineChart = (LineChart)lineChartView.findViewById(R.id.detail_line_chart);
-        // Instantiate a ViewPager and a PagerAdapter.
+
         stockTextView = (TextView)lineChartView.findViewById(R.id.stock_text_view);
         btnOneMonthButton = (TextView) lineChartView.findViewById(R.id.btn_one_month);
         btnThreeMonthButton = (TextView)lineChartView.findViewById(R.id.btn_six_months);
@@ -114,7 +113,7 @@ public class StockPagerAdapter extends PagerAdapter implements View.OnClickListe
         btnSixMonth.setOnClickListener(this);
         btnOneYear.setOnClickListener(this);
 
-        Toast.makeText(mContext,"HERE",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext,"HERE",Toast.LENGTH_SHORT).show();
         mSymbol = mCursor.getString(Contract.Quote.POSITION_SYMBOL);
 
         stockTextView.setText(mSymbol);
@@ -151,13 +150,14 @@ public class StockPagerAdapter extends PagerAdapter implements View.OnClickListe
         lineChart.setData(new LineData(quoteDataSet));
         lineChart.invalidate();
 
+        container.addView(lineChartView);
 
-        return ;
+        return lineChartView;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container, position, object);
+        container.invalidate();
     }
 
     private String[] reverseData(String[] splitRawData) {

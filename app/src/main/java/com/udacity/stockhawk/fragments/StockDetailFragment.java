@@ -1,7 +1,6 @@
 package com.udacity.stockhawk.fragments;
 
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,35 +10,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.adapters.StockPagerAdapter;
-import com.udacity.stockhawk.chart_helpers.StockXAxesFormater;
 import com.udacity.stockhawk.data.Contract;
-import com.udacity.stockhawk.data.PrefUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedHashMap;
-
-import butterknife.BindView;
 
 public class StockDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -195,6 +177,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
                 if(cursor.moveToFirst()){
                     mPagerAdapter = new StockPagerAdapter(getContext(), cursor);
                     mPager.setAdapter(mPagerAdapter);
+
 //                    Toast.makeText(getContext(),"HERE",Toast.LENGTH_SHORT).show();
 //                    mSymbol = cursor.getString(Contract.Quote.POSITION_SYMBOL);
 //
