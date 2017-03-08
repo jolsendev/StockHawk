@@ -183,8 +183,6 @@ public class StockPagerAdapter extends PagerAdapter implements View.OnClickListe
                 }
             }
         }
-
-
         return retEntry;
     }
     private boolean dataInPrefDateRange(String[] data) {

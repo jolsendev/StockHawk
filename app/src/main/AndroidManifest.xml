@@ -46,6 +46,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.udacity.stockhawk.ui.MainActivity" />
         </activity>
+        <!-- Today Widget -->
+        <receiver
+            android:name=".widget.StockWidgetProvider"
+            android:label="Stock Hawk" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_stock_info" />
+        </receiver>
+
     </application>
 
 </manifest>

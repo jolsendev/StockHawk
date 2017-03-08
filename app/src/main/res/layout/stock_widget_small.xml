@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widget_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/stock_widget"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/symbol"
+            style="@style/SymbolText"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/price"
+                style="@style/BidPriceTextStyle"
+                />
+
+            <TextView
+                android:id="@+id/change"
+                style="@style/PercentChangeTextStyle" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

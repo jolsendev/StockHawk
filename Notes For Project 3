@@ -83,3 +83,38 @@ Steps for nuke
     \\\https:
 
     https://www.youtube.com/watch?v=9u9KbXeuwCI
+
+
+Creating widgets
+AppWidgetProvider xml file
+    previewImage
+    initialLayout
+    minHeight
+    minWidth
+    updatePeriodMillis
+
+AppWidgetProvider class
+    hold all the logic for the views
+    remoteViews
+    onUpdate
+    appWidgetIds
+    appWidgetManager
+    setOnClickPendingIntent
+
+Manifest
+
+
+
+Ashesh notes
+
+FragmentStateAdapter with cursor
+
+https://goo.gl/forms/FPGHUc3Fgyo8r7Iq1
+Ashesh Bharadwaj
+
+https://www.bignerdranch.com/blog/viewpager-without-fragments/
+https://developer.android.com/reference/android/support/v4/app/FragmentStatePagerAdapter.html
+https://developer.android.com/reference/android/support/v4/app/FragmentPagerAdapter.html
+https://examples.javacodegeeks.com/android/core/view/viewpager/android-viewpager-example/
+http://tumble.mlcastle.net/post/25875136857/bridging-cursorloaders-and-viewpagers-on-android
+
