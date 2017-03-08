@@ -1,15 +1,11 @@
 package com.udacity.stockhawk.fragments;
 
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,17 +13,17 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.data.Entry;
 import com.udacity.stockhawk.R;
-import com.udacity.stockhawk.adapters.StockPagerAdapter;
+import com.udacity.stockhawk.adapters.CursorPagerAdapter;
 import com.udacity.stockhawk.data.Contract;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-public class StockDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class StockDetailFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
 
-    private static final int QUOTE_ADAPTER = 0;
+//    private static final int QUOTE_ADAPTER = 0;
 
     private static final String ARG_PARAM1 = "param1";
     public static final String POSITION = "position";
@@ -50,7 +46,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
 
     private View lineChartView;
     private ViewPager mPager;
-    private StockPagerAdapter mPagerAdapter;
+    private CursorPagerAdapter mPagerAdapter;
 
 
     public StockDetailFragment() {
@@ -98,7 +94,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onResume() {
         super.onResume();
-        getLoaderManager().initLoader(QUOTE_ADAPTER, null, this);
+        //getLoaderManager().initLoader(QUOTE_ADAPTER, null, this);
     }
 
     public void setPosition(int position) {
@@ -154,29 +150,29 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         super.onDetach();
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        CursorLoader cursor = null;
-        //(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
-        switch (id){
-            case QUOTE_ADAPTER:{
-                return new CursorLoader(getContext(),
-                        mUri,
-                        Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
-                        null, null, Contract.Quote.COLUMN_SYMBOL);
-            }
-        }
-        return cursor;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        int id = loader.getId();
-        switch (id){
-            case QUOTE_ADAPTER:{
-                if(cursor.moveToFirst()){
-                    mPagerAdapter = new StockPagerAdapter(getContext(), cursor);
-                    mPager.setAdapter(mPagerAdapter);
+//    @Override
+//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//        CursorLoader cursor = null;
+//        //(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
+//        switch (id){
+//            case QUOTE_ADAPTER:{
+//                return new CursorLoader(getContext(),
+//                        mUri,
+//                        Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
+//                        null, null, Contract.Quote.COLUMN_SYMBOL);
+//            }
+//        }
+//        return cursor;
+//    }
+//
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+//        int id = loader.getId();
+//        switch (id){
+//            case QUOTE_ADAPTER:{
+//                if(cursor.moveToFirst()){
+//                    mPagerAdapter = new CursorPagerAdapter(getFragmentManager(),this.getClass(),Contract.Quote.QUOTE_COLUMNS, cursor);
+//                    mPager.setAdapter(mPagerAdapter);
 
 //                    Toast.makeText(getContext(),"HERE",Toast.LENGTH_SHORT).show();
 //                    mSymbol = cursor.getString(Contract.Quote.POSITION_SYMBOL);
@@ -214,20 +210,20 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
 //                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 //                    lineChart.setData(new LineData(quoteDataSet));
 //                    lineChart.invalidate();
-                }
+//                }
+//
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onLoaderReset(Loader<Cursor> loader) {
+//
+//    }
 
-            }
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-    public void restartLoader() {
-        getLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
-    }
+//    public void restartLoader() {
+//        getLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
+//    }
 //    private String[] reverseData(String[] splitRawData) {
 //
 //        String[] retData = new String[splitRawData.length];
