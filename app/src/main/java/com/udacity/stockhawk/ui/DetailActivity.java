@@ -17,13 +17,17 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private ViewPager mPager;
     private CursorPagerAdapter mPagerAdapter;
     private static final int QUOTE_ADAPTER = 0;
+    public static final String POSITION = "position";
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
+        Bundle bundleExtras = getIntent().getExtras();
+        position = bundleExtras.getInt(POSITION);
         Toolbar toolbar = (Toolbar)findViewById(R.id.detail_toolbar);
+        mPager = (ViewPager)findViewById(R.id.pager);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -19,6 +19,8 @@ import com.udacity.stockhawk.data.Contract;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import static com.udacity.stockhawk.ui.DetailActivity.POSITION;
+
 public class StockDetailFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -26,7 +28,7 @@ public class StockDetailFragment extends Fragment {
 //    private static final int QUOTE_ADAPTER = 0;
 
     private static final String ARG_PARAM1 = "param1";
-    public static final String POSITION = "position";
+//    public static final String POSITION = "position";
     public static final String PREF_ONE_MONTH = "one_month";
     public static final String PREF_SIX_MONTHS = "six_months";
     public static final String PREF_ONE_YEAR = "one_year";
@@ -65,7 +67,7 @@ public class StockDetailFragment extends Fragment {
     public static StockDetailFragment newInstance(int position) {
         StockDetailFragment fragment = new StockDetailFragment();
         Bundle args = new Bundle();
-        args.putInt(POSITION, position);
+        //args.putInt(POSITION, position);
         fragment.setArguments(args);
         return fragment;
     }
