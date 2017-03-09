@@ -95,7 +95,7 @@ AppWidgetProvider xml file
 
 AppWidgetProvider class
     hold all the logic for the views
-    remoteViews
+    remoteViewsgit git
     onUpdate
     appWidgetIds
     appWidgetManager
@@ -116,5 +116,5 @@ https://www.bignerdranch.com/blog/viewpager-without-fragments/
 https://developer.android.com/reference/android/support/v4/app/FragmentStatePagerAdapter.html
 https://developer.android.com/reference/android/support/v4/app/FragmentPagerAdapter.html
 https://examples.javacodegeeks.com/android/core/view/viewpager/android-viewpager-example/
-http://tumble.mlcastle.net/post/25875136857/bridging-cursorloaders-and-viewpagers-on-android
+http://tumble.mlcastle.net/post/25875136857/bridging-cursorloaders-and-viewpagers-on-androidP
 

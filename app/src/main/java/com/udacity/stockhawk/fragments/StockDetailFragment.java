@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.data.Entry;
 import com.udacity.stockhawk.R;
@@ -107,12 +108,12 @@ public class StockDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Toast.makeText(getContext(), "HERE IN FRAG", Toast.LENGTH_SHORT).show();
 
         setHasOptionsMenu(false);
 
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        mPager = (ViewPager) view.findViewById(R.id.pager);
 
 
 

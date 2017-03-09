@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements StockFragment.Cal
             //create intent
             Intent intent = new Intent(this, DetailActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putInt(StockDetailFragment.POSITION, position);
+            bundle.putInt(DetailActivity.POSITION, position);
             intent.setData(uri);
             intent.putExtras(bundle);
             startActivity(intent);
