@@ -68,7 +68,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             case QUOTE_ADAPTER: {
                 if (data.moveToFirst()) {
                     StockDetailFragment sDF = new StockDetailFragment();
-                    mPagerAdapter = new CursorPagerAdapter(getSupportFragmentManager(), sDF.getClass(), Contract.Quote.QUOTE_COLUMNS, data);
+                    mPagerAdapter = new CursorPagerAdapter(getSupportFragmentManager(), sDF.getClass(), Contract.Quote.QUOTE_COLUMNS, data, position);
                     mPager.setAdapter(mPagerAdapter);
                 }
                 break;

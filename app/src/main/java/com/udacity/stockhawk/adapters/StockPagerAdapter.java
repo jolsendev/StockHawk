@@ -104,10 +104,10 @@ public class StockPagerAdapter extends PagerAdapter implements View.OnClickListe
         lineChart = (LineChart)lineChartView.findViewById(R.id.detail_line_chart);
 
         stockTextView = (TextView)lineChartView.findViewById(R.id.stock_text_view);
-        btnOneMonthButton = (TextView) lineChartView.findViewById(R.id.btn_one_month);
-        btnThreeMonthButton = (TextView)lineChartView.findViewById(R.id.btn_six_months);
-        btnSixMonth = (TextView)lineChartView.findViewById(R.id.btn_six_months);
-        btnOneYear = (TextView)lineChartView.findViewById(R.id.btn_one_year);
+        btnOneMonthButton = (TextView) lineChartView.findViewById(R.id.tv_one_month);
+        btnThreeMonthButton = (TextView)lineChartView.findViewById(R.id.tv_six_months);
+        btnSixMonth = (TextView)lineChartView.findViewById(R.id.tv_six_months);
+        btnOneYear = (TextView)lineChartView.findViewById(R.id.tv_one_year);
         btnOneMonthButton.setOnClickListener(this);
         btnThreeMonthButton.setOnClickListener(this);
         btnSixMonth.setOnClickListener(this);
@@ -232,7 +232,7 @@ public class StockPagerAdapter extends PagerAdapter implements View.OnClickListe
         int id = v.getId();
 
         switch (id){
-            case R.id.btn_one_month:{
+            case R.id.tv_one_month:{
                 mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("one_month").build();
                 PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_ONE_MONTH);
                 //mSDF.setPosition(getAdapterPosition());
@@ -242,7 +242,7 @@ public class StockPagerAdapter extends PagerAdapter implements View.OnClickListe
                 //Toast.makeText(mContext, "One month btn", Toast.LENGTH_LONG).show();
                 break;
             }
-            case R.id.btn_three_months:{
+            case R.id.tv_three_months:{
                 mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("three_months").build();
                 PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_THREE_MONTHS);
                 //mSDF.setPosition(getAdapterPosition());
@@ -251,7 +251,7 @@ public class StockPagerAdapter extends PagerAdapter implements View.OnClickListe
                 //mSDF.restartLoader();
                 break;
             }
-            case R.id.btn_six_months:{
+            case R.id.tv_six_months:{
                 mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("six_months").build();
                 PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_SIX_MONTHS);
                 //mSDF.setPosition(getAdapterPosition());
@@ -260,7 +260,7 @@ public class StockPagerAdapter extends PagerAdapter implements View.OnClickListe
                 //mSDF.restartLoader();
                 break;
             }
-            case R.id.btn_one_year:{
+            case R.id.tv_one_year:{
                 mUri = Contract.Quote.URI;
                 PrefUtils.setDateRangePreference(mContext, StockDetailFragment.PREF_ONE_YEAR);
                 //resetButtonColor();

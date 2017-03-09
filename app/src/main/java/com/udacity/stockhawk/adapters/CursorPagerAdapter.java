@@ -7,21 +7,41 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.google.common.collect.ImmutableList;
+import com.udacity.stockhawk.data.Contract;
 
 public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAdapter {
     private final Class<F> fragmentClass;
     private final ImmutableList<String> projection;
     private Cursor cursor;
+    private int mPosition;
 
-    public CursorPagerAdapter(FragmentManager fm, Class<F> fragmentClass, ImmutableList<String> projection, Cursor cursor) {
+//    public static final int POSITION_SYMBOL = 1;
+//    public static final int POSITION_PRICE = 2;
+//    public static final int POSITION_ABSOLUTE_CHANGE = 3;
+//    public static final int POSITION_PERCENTAGE_CHANGE = 4;
+//    public static final int POSITION_HISTORY = 5;
+//
+//    public static final ImmutableList<String> QUOTE_COLUMNS = ImmutableList.of(
+//            COLUMN_SYMBOL,
+//            COLUMN_PRICE,
+//            COLUMN_ABSOLUTE_CHANGE,
+//            COLUMN_PERCENTAGE_CHANGE,
+//            COLUMN_HISTORY
+//    );
+
+
+
+    public CursorPagerAdapter(FragmentManager fm, Class<F> fragmentClass, ImmutableList<String> projection, Cursor cursor, int position) {
         super(fm);
         this.fragmentClass = fragmentClass;
         this.projection = projection;
         this.cursor = cursor;
+        this.mPosition = position;
     }
 
     @Override
     public F getItem(int position) {
+//        position = mPosition;
         if (cursor == null) // shouldn't happen
             return null;
 
@@ -33,9 +53,21 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
             throw new RuntimeException(ex);
         }
         Bundle args = new Bundle();
-        for (int i = 0; i < projection.size(); ++i) {
-            args.putString(projection.get(i), cursor.getString(i));
-        }
+
+        args.putString(projection.get(Contract.Quote.POSITION_SYMBOL),
+                cursor.getString(Contract.Quote.POSITION_SYMBOL));
+
+        args.putDouble(projection.get(Contract.Quote.POSITION_PRICE),
+                cursor.getDouble(Contract.Quote.POSITION_PRICE));
+
+        args.putDouble(projection.get(Contract.Quote.POSITION_ABSOLUTE_CHANGE),
+            cursor.getDouble(Contract.Quote.POSITION_ABSOLUTE_CHANGE));
+
+        args.putDouble(projection.get(Contract.Quote.POSITION_PERCENTAGE_CHANGE),
+                cursor.getDouble(Contract.Quote.POSITION_PERCENTAGE_CHANGE));
+
+        args.putString(projection.get(Contract.Quote.POSITION_HISTORY),
+                cursor.getString(Contract.Quote.POSITION_HISTORY));
         frag.setArguments(args);
         return frag;
     }

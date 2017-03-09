@@ -49,22 +49,22 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/btn_one_month"
+            android:id="@+id/tv_one_month"
             style="@style/ButtonRangeStyle"
             android:text="1M"/>
 
         <TextView
-            android:id="@+id/btn_three_months"
+            android:id="@+id/tv_three_months"
             style="@style/ButtonRangeStyle"
             android:text="3M"/>
 
         <TextView
-            android:id="@+id/btn_six_months"
+            android:id="@+id/tv_six_months"
             style="@style/ButtonRangeStyle"
             android:text="6M"/>
 
         <TextView
-            android:id="@+id/btn_one_year"
+            android:id="@+id/tv_one_year"
             style="@style/ButtonRangeStyle"
             android:text="1Y"/>
     </LinearLayout>
