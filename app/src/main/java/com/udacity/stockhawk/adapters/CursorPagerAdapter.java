@@ -15,22 +15,6 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
     private Cursor cursor;
     private int mPosition;
 
-//    public static final int POSITION_SYMBOL = 1;
-//    public static final int POSITION_PRICE = 2;
-//    public static final int POSITION_ABSOLUTE_CHANGE = 3;
-//    public static final int POSITION_PERCENTAGE_CHANGE = 4;
-//    public static final int POSITION_HISTORY = 5;
-//
-//    public static final ImmutableList<String> QUOTE_COLUMNS = ImmutableList.of(
-//            COLUMN_SYMBOL,
-//            COLUMN_PRICE,
-//            COLUMN_ABSOLUTE_CHANGE,
-//            COLUMN_PERCENTAGE_CHANGE,
-//            COLUMN_HISTORY
-//    );
-
-
-
     public CursorPagerAdapter(FragmentManager fm, Class<F> fragmentClass, ImmutableList<String> projection, Cursor cursor, int position) {
         super(fm);
         this.fragmentClass = fragmentClass;
