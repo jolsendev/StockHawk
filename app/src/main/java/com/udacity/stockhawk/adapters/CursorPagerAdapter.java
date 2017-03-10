@@ -60,8 +60,10 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
     public int getCount() {
         if (cursor == null)
             return 0;
-        else
-            return cursor.getCount();
+        else{
+            int count = cursor.getCount();
+            return count;
+        }
     }
 
     public void swapCursor(Cursor c) {

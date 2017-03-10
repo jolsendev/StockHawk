@@ -54,7 +54,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         switch (id){
             case QUOTE_ADAPTER:{
                 return new CursorLoader(this,
-                        mUri,
+                        Contract.Quote.URI,
                         Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
                         null, null, Contract.Quote.COLUMN_SYMBOL);
             }
@@ -71,8 +71,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 if (data.moveToFirst()) {
                     StockDetailFragment sDF = new StockDetailFragment();
                     mPagerAdapter = new CursorPagerAdapter(getSupportFragmentManager(), sDF.getClass(), Contract.Quote.QUOTE_COLUMNS, data, position);
-
                     mPager.setAdapter(mPagerAdapter);
+                    //mPagerAdapter.swapCursor(data);
                     mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
                 }
