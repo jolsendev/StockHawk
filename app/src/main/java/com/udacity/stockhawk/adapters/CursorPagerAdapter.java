@@ -13,22 +13,10 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
     private final Class<F> fragmentClass;
     private final ImmutableList<String> projection;
     private Cursor cursor;
-    private int mPosition;
-
-//    public static final int POSITION_SYMBOL = 1;
-//    public static final int POSITION_PRICE = 2;
-//    public static final int POSITION_ABSOLUTE_CHANGE = 3;
-//    public static final int POSITION_PERCENTAGE_CHANGE = 4;
-//    public static final int POSITION_HISTORY = 5;
-//
-//    public static final ImmutableList<String> QUOTE_COLUMNS = ImmutableList.of(
-//            COLUMN_SYMBOL,
-//            COLUMN_PRICE,
-//            COLUMN_ABSOLUTE_CHANGE,
-//            COLUMN_PERCENTAGE_CHANGE,
-//            COLUMN_HISTORY
-//    );
-
+    private int mRealPosition;
+    private int mAdapterPosition = 0;
+    private boolean realPositionBeenUsed = false;
+    private int firstPosition;
 
 
     public CursorPagerAdapter(FragmentManager fm, Class<F> fragmentClass, ImmutableList<String> projection, Cursor cursor, int position) {
@@ -36,12 +24,11 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
         this.fragmentClass = fragmentClass;
         this.projection = projection;
         this.cursor = cursor;
-        this.mPosition = position;
+        this.mRealPosition = position;
     }
 
     @Override
     public F getItem(int position) {
-//        position = mPosition;
         if (cursor == null) // shouldn't happen
             return null;
 
@@ -72,13 +59,33 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
         return frag;
     }
 
+    private int getRealPosition(int position) {
+
+        //if reslPosition = getPosition()
+            //do nothing
+            //set realPosition
+        //if position is oneLess
+//        if (!realPositionBeenUsed){
+//            firstPosition = getPosition();
+//            realPostion = getPosition();
+//            realPositionBeenUsed = true;
+//        }
+
+        return position;
+    }
+
+
     @Override
     public int getCount() {
         if (cursor == null)
             return 0;
-        else
-            return cursor.getCount();
+        else{
+            int ccount = cursor.getCount();
+            return ccount;
+        }
+
     }
+
 
     public void swapCursor(Cursor c) {
         if (cursor == c)
@@ -90,5 +97,13 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
 
     public Cursor getCursor() {
         return cursor;
+    }
+
+    public void setPosition(int position) {
+        this.mRealPosition = position;
+
+    }
+    private int getPosition(){
+        return this.mRealPosition;
     }
 }
