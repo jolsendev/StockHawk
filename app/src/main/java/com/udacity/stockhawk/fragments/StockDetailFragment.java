@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -108,21 +107,12 @@ public class StockDetailFragment extends Fragment implements View.OnClickListene
         Bundle extra  = getActivity().getIntent().getExtras();
         setPosition(extra.getInt(POSITION));
 
-        //setActionToolBar
-
         if (getArguments() != null) {
-//            public static final int POSITION_ID = 0;
-//            public static final int POSITION_SYMBOL = 1;
             mSymbol = getArguments().getString(Contract.Quote.COLUMN_SYMBOL);
-//            public static final int POSITION_PRICE = 2;
             mPrice = getArguments().getDouble(Contract.Quote.COLUMN_PRICE);
-//            public static final int POSITION_ABSOLUTE_CHANGE = 3;
             mAbsChange = getArguments().getDouble(Contract.Quote.COLUMN_ABSOLUTE_CHANGE);
-//            public static final int POSITION_PERCENTAGE_CHANGE = 4;
             mPrecChange = getArguments().getDouble(Contract.Quote.COLUMN_PERCENTAGE_CHANGE);
-//            public static final int POSITION_HISTORY = 5;
             mHistory = getArguments().getString(Contract.Quote.COLUMN_HISTORY);
-
         }
     }
 
@@ -140,7 +130,6 @@ public class StockDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Toast.makeText(getContext(), "HERE IN FRAG", Toast.LENGTH_SHORT).show();
 
         setHasOptionsMenu(false);
 

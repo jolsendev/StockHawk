@@ -9,13 +9,15 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.adapters.CursorPagerAdapter;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.fragments.StockDetailFragment;
+import com.udacity.stockhawk.pager_helpers.ZoomOutPageTransformer;
 
-public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, ViewPager.PageTransformer{
 
     private ViewPager mPager;
     private CursorPagerAdapter mPagerAdapter;
@@ -70,6 +72,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     StockDetailFragment sDF = new StockDetailFragment();
                     mPagerAdapter = new CursorPagerAdapter(getSupportFragmentManager(), sDF.getClass(), Contract.Quote.QUOTE_COLUMNS, data, mPosition);
                     mPager.setAdapter(mPagerAdapter);
+                    //mPagerAdapter.swapCursor(data);
+                    mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+
                 }
                 break;
             }
@@ -79,6 +84,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public void transformPage(View page, float position) {
 
     }
 }

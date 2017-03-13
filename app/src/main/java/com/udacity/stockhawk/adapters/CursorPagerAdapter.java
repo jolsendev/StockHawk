@@ -18,7 +18,6 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
     private boolean realPositionBeenUsed = false;
     private int firstPosition;
 
-
     public CursorPagerAdapter(FragmentManager fm, Class<F> fragmentClass, ImmutableList<String> projection, Cursor cursor, int position) {
         super(fm);
         this.fragmentClass = fragmentClass;
@@ -80,10 +79,9 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
         if (cursor == null)
             return 0;
         else{
-            int ccount = cursor.getCount();
-            return ccount;
+             int count = cursor.getCount();
+            return count;
         }
-
     }
 
 
