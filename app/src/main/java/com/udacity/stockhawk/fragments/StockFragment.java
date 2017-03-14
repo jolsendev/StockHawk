@@ -284,8 +284,7 @@ public class StockFragment extends Fragment implements  LoaderManager.LoaderCall
     @Override
     public void onClick(String symbol, int position) {
         Timber.d("Symbol clicked: %s", symbol);
-
-        Uri uri = Contract.Quote.makeUriForStock(symbol);
+        Uri uri = Contract.Quote.URI;
         ((Callback)getActivity()).onStockFragmentInteraction(uri, position);
     }
 

@@ -23,6 +23,7 @@ import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.chart_helpers.StockXAxesFormater;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.ui.DetailActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,7 +34,7 @@ import java.util.LinkedHashMap;
 
 import static com.udacity.stockhawk.ui.DetailActivity.POSITION;
 
-public class StockDetailFragment extends Fragment implements View.OnClickListener{
+public class StockDetailFragment extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
 
@@ -62,10 +63,7 @@ public class StockDetailFragment extends Fragment implements View.OnClickListene
 
     private LineChart lineChart;
     private TextView stockTextView;
-    private TextView tvOneMonthButton;
-    private TextView tvThreeMonthButton;
-    private TextView tvSixMonth;
-    private TextView tvOneYear;
+
     private double mPrice;
     private double mAbsChange;
     private double mPrecChange;
@@ -136,34 +134,29 @@ public class StockDetailFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.detail_stock_chart, container, false);
         lineChart = (LineChart)view.findViewById(R.id.detail_line_chart);
         stockTextView = (TextView)view.findViewById(R.id.stock_text_view);
-        tvOneMonthButton = (TextView) view.findViewById(R.id.tv_one_month);
-        tvThreeMonthButton = (TextView)view.findViewById(R.id.tv_three_months);
-        tvSixMonth = (TextView)view.findViewById(R.id.tv_six_months);
-        tvOneYear = (TextView)view.findViewById(R.id.tv_one_year);
 
-        sharedPref = PrefUtils.getDateRangePreference(getContext());
-
-        switch(sharedPref){
-
-            case StockDetailFragment.PREF_ONE_MONTH:{
-                prefRange = 30;
-                break;
-            }
-            case StockDetailFragment.PREF_SIX_MONTHS:{
-                prefRange = 180;
-                break;
-            }
-            case StockDetailFragment.PREF_ONE_YEAR:{
-                prefRange = 360;
-                break;
-            }
-            case StockDetailFragment.PREF_THREE_MONTHS:{
-                prefRange = 90;
-                break;
-            }
-            default:
-                break;
-        }
+//
+//        switch(sharedPref){
+//
+//            case StockDetailFragment.PREF_ONE_MONTH:{
+//                prefRange = 30;
+//                break;
+//            }
+//            case StockDetailFragment.PREF_SIX_MONTHS:{
+//                prefRange = 180;
+//                break;
+//            }
+//            case StockDetailFragment.PREF_ONE_YEAR:{
+//                prefRange = 360;
+//                break;
+//            }
+//            case StockDetailFragment.PREF_THREE_MONTHS:{
+//                prefRange = 90;
+//                break;
+//            }
+//            default:
+//                break;
+//        }
 
         stockTextView.setText(mSymbol);
 
@@ -253,69 +246,16 @@ public class StockDetailFragment extends Fragment implements View.OnClickListene
         return retData;
     }
 
-    private void setPrefRangeButton() {
-        if(sharedPref != null){
-            switch (sharedPref){
-                case StockDetailFragment.PREF_ONE_MONTH:{
-                    tvOneMonthButton.setTextColor(Color.RED);
-                    break;
-                }
-                case StockDetailFragment.PREF_THREE_MONTHS:{
-                    tvThreeMonthButton.setTextColor(Color.RED);
-                    break;
-                }
-                case StockDetailFragment.PREF_SIX_MONTHS:{
-                    tvSixMonth.setTextColor(Color.RED);
-                    break;
-                }
-                case StockDetailFragment.PREF_ONE_YEAR:{
-                    tvOneYear.setTextColor(Color.RED);
-                    break;
-                }
-            }
-        }
+
+
+
+    public interface Callback {
+        // TODO: Update argument type and name
+        void restartLoader();
+        void setUri(Uri uri);
+
     }
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-
-            switch (id){
-                case R.id.tv_one_month:{
-                    mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("one_month").build();
-                    PrefUtils.setDateRangePreference(getContext(), StockDetailFragment.PREF_ONE_MONTH);
-                    resetButtonColor();
-                    tvOneMonthButton.setTextColor(Color.RED);
-                    break;
-                }
-                case R.id.tv_three_months:{
-                    mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("three_months").build();
-                    PrefUtils.setDateRangePreference(getContext(), StockDetailFragment.PREF_THREE_MONTHS);
-                    resetButtonColor();
-                    break;
-                }
-                case R.id.tv_six_months:{
-                    mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("six_months").build();
-                    PrefUtils.setDateRangePreference(getContext(), StockDetailFragment.PREF_SIX_MONTHS);
-                    resetButtonColor();
-                    break;
-                }
-                case R.id.tv_one_year:{
-                    mUri = Contract.Quote.URI;
-                    PrefUtils.setDateRangePreference(getContext(), StockDetailFragment.PREF_ONE_YEAR);
-                    resetButtonColor();
-                    break;
-                }
-            }
-        }
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void resetButtonColor() {
-        tvOneMonthButton.setTextColor(getContext().getColor(R.color.textColor));
-        tvOneYear.setTextColor(getContext().getColor(R.color.textColor));;
-        tvSixMonth.setTextColor(getContext().getColor(R.color.textColor));;
-        tvThreeMonthButton.setTextColor(getContext().getColor(R.color.textColor));;
-    }
 }
 
 

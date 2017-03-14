@@ -1,8 +1,11 @@
 package com.udacity.stockhawk.ui;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -10,14 +13,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.adapters.CursorPagerAdapter;
 import com.udacity.stockhawk.data.Contract;
+import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.fragments.StockDetailFragment;
 import com.udacity.stockhawk.pager_helpers.ZoomOutPageTransformer;
 
-public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, ViewPager.PageTransformer{
+public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener{
 
     private ViewPager mPager;
     private CursorPagerAdapter mPagerAdapter;
@@ -25,6 +30,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     public static final String POSITION = "position";
     private int position;
     private Uri mUri;
+
+    private TextView tvOneMonthButton;
+    private TextView tvThreeMonthButton;
+    private TextView tvSixMonth;
+    private TextView tvOneYear;
+    private String sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +49,16 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        sharedPref = PrefUtils.getDateRangePreference(this);
+        
+        tvOneMonthButton = (TextView) findViewById(R.id.tv_one_month);
+        tvOneMonthButton.setOnClickListener(this);
+        tvThreeMonthButton = (TextView)findViewById(R.id.tv_three_months);
+        tvThreeMonthButton.setOnClickListener(this);
+        tvSixMonth = (TextView)findViewById(R.id.tv_six_months);
+        tvSixMonth.setOnClickListener(this);
+        tvOneYear = (TextView)findViewById(R.id.tv_one_year);
+        tvOneYear.setOnClickListener(this);
 
     }
 
@@ -54,7 +75,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         switch (id){
             case QUOTE_ADAPTER:{
                 return new CursorLoader(this,
-                        Contract.Quote.URI,
+                        mUri,
                         Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
                         null, null, Contract.Quote.COLUMN_SYMBOL);
             }
@@ -84,11 +105,79 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    public void restartLoader() {
+        getSupportLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
 
     }
 
+    private void setPrefRangeButton() {
+        if(sharedPref != null){
+            switch (sharedPref){
+                case StockDetailFragment.PREF_ONE_MONTH:{
+                    tvOneMonthButton.setTextColor(Color.RED);
+                    break;
+                }
+                case StockDetailFragment.PREF_THREE_MONTHS:{
+                    tvThreeMonthButton.setTextColor(Color.RED);
+                    break;
+                }
+                case StockDetailFragment.PREF_SIX_MONTHS:{
+                    tvSixMonth.setTextColor(Color.RED);
+                    break;
+                }
+                case StockDetailFragment.PREF_ONE_YEAR:{
+                    tvOneYear.setTextColor(Color.RED);
+                    break;
+                }
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void transformPage(View page, float position) {
+    public void onClick(View v) {
+        int id = v.getId();
 
+        switch (id){
+            case R.id.tv_one_month:{
+                mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("one_month").build();
+                PrefUtils.setDateRangePreference(this, StockDetailFragment.PREF_ONE_MONTH);
+                resetButtonColor();
+                tvOneMonthButton.setTextColor(Color.RED);
+                restartLoader();
+                break;
+            }
+            case R.id.tv_three_months:{
+                mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("three_months").build();
+                PrefUtils.setDateRangePreference(this, StockDetailFragment.PREF_THREE_MONTHS);
+                resetButtonColor();
+                restartLoader();
+                break;
+            }
+            case R.id.tv_six_months:{
+                mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("six_months").build();
+                PrefUtils.setDateRangePreference(this, StockDetailFragment.PREF_SIX_MONTHS);
+                resetButtonColor();
+                restartLoader();
+                break;
+            }
+            case R.id.tv_one_year:{
+                mUri = Contract.Quote.URI;
+                PrefUtils.setDateRangePreference(this, StockDetailFragment.PREF_ONE_YEAR);
+                resetButtonColor();
+                restartLoader();
+                break;
+            }
+        }
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void resetButtonColor() {
+        tvOneMonthButton.setTextColor(this.getColor(R.color.textColor));
+        tvOneYear.setTextColor(this.getColor(R.color.textColor));;
+        tvSixMonth.setTextColor(this.getColor(R.color.textColor));;
+        tvThreeMonthButton.setTextColor(this.getColor(R.color.textColor));;
+    }
+
 }
