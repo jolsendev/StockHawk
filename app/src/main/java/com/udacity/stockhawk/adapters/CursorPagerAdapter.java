@@ -13,19 +13,21 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
     private final Class<F> fragmentClass;
     private final ImmutableList<String> projection;
     private Cursor cursor;
-    private int mPosition;
+    private int mRealPosition;
+    private int mAdapterPosition = 0;
+    private boolean realPositionBeenUsed = false;
+    private int firstPosition;
 
     public CursorPagerAdapter(FragmentManager fm, Class<F> fragmentClass, ImmutableList<String> projection, Cursor cursor, int position) {
         super(fm);
         this.fragmentClass = fragmentClass;
         this.projection = projection;
         this.cursor = cursor;
-        this.mPosition = position;
+        this.mRealPosition = position;
     }
 
     @Override
     public F getItem(int position) {
-//        position = mPosition;
         if (cursor == null) // shouldn't happen
             return null;
 
@@ -56,15 +58,32 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
         return frag;
     }
 
+    private int getRealPosition(int position) {
+
+        //if reslPosition = getPosition()
+            //do nothing
+            //set realPosition
+        //if position is oneLess
+//        if (!realPositionBeenUsed){
+//            firstPosition = getPosition();
+//            realPostion = getPosition();
+//            realPositionBeenUsed = true;
+//        }
+
+        return position;
+    }
+
+
     @Override
     public int getCount() {
         if (cursor == null)
             return 0;
         else{
-            int count = cursor.getCount();
+             int count = cursor.getCount();
             return count;
         }
     }
+
 
     public void swapCursor(Cursor c) {
         if (cursor == c)
@@ -76,5 +95,13 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
 
     public Cursor getCursor() {
         return cursor;
+    }
+
+    public void setPosition(int position) {
+        this.mRealPosition = position;
+
+    }
+    private int getPosition(){
+        return this.mRealPosition;
     }
 }

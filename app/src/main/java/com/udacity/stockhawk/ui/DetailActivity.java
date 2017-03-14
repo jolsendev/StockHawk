@@ -27,8 +27,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private ViewPager mPager;
     private CursorPagerAdapter mPagerAdapter;
     private static final int QUOTE_ADAPTER = 0;
-    public static final String POSITION = "position";
-    private int position;
+    public static final String POSITION = "mPosition";
+    private int mPosition;
     private Uri mUri;
 
     private TextView tvOneMonthButton;
@@ -43,7 +43,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_detail);
         Bundle bundleExtras = getIntent().getExtras();
         mUri = getIntent().getData();
-        position = bundleExtras.getInt(POSITION);
+        mPosition = bundleExtras.getInt(POSITION);
         Toolbar toolbar = (Toolbar)findViewById(R.id.detail_toolbar);
         mPager = (ViewPager)findViewById(R.id.pager);
         setSupportActionBar(toolbar);
@@ -91,7 +91,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             case QUOTE_ADAPTER: {
                 if (data.moveToFirst()) {
                     StockDetailFragment sDF = new StockDetailFragment();
-                    mPagerAdapter = new CursorPagerAdapter(getSupportFragmentManager(), sDF.getClass(), Contract.Quote.QUOTE_COLUMNS, data, position);
+                    mPagerAdapter = new CursorPagerAdapter(getSupportFragmentManager(), sDF.getClass(), Contract.Quote.QUOTE_COLUMNS, data, mPosition);
                     mPager.setAdapter(mPagerAdapter);
                     //mPagerAdapter.swapCursor(data);
                     mPager.setPageTransformer(true, new ZoomOutPageTransformer());
