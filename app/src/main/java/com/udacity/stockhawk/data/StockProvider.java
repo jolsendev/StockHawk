@@ -47,6 +47,7 @@ public class StockProvider extends ContentProvider {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         switch (uriMatcher.match(uri)) {
+
             case QUOTE:
                 returnCursor = db.query(
                         Contract.Quote.TABLE_NAME,
@@ -58,8 +59,6 @@ public class StockProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-
-
             case HISTORY_ONE_MONTH:{
                 returnCursor = db.query(
                         Contract.Quote.TABLE_NAME,
@@ -84,7 +83,6 @@ public class StockProvider extends ContentProvider {
                 );
                 break;
             }
-
             case HISTORY_THREE_MONTHS:{
                 returnCursor = db.query(
                         Contract.Quote.TABLE_NAME,
@@ -97,7 +95,6 @@ public class StockProvider extends ContentProvider {
                 );
                 break;
             }
-
             case QUOTE_FOR_SYMBOL:
                 returnCursor = db.query(
                         Contract.Quote.TABLE_NAME,

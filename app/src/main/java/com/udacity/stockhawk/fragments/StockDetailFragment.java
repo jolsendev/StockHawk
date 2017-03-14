@@ -114,12 +114,6 @@ public class StockDetailFragment extends Fragment{
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //getLoaderManager().initLoader(QUOTE_ADAPTER, null, this);
-    }
-
     public void setPosition(int position) {
         this.position = position;
     }
@@ -134,29 +128,7 @@ public class StockDetailFragment extends Fragment{
         View view = inflater.inflate(R.layout.detail_stock_chart, container, false);
         lineChart = (LineChart)view.findViewById(R.id.detail_line_chart);
         stockTextView = (TextView)view.findViewById(R.id.stock_text_view);
-
-//
-//        switch(sharedPref){
-//
-//            case StockDetailFragment.PREF_ONE_MONTH:{
-//                prefRange = 30;
-//                break;
-//            }
-//            case StockDetailFragment.PREF_SIX_MONTHS:{
-//                prefRange = 180;
-//                break;
-//            }
-//            case StockDetailFragment.PREF_ONE_YEAR:{
-//                prefRange = 360;
-//                break;
-//            }
-//            case StockDetailFragment.PREF_THREE_MONTHS:{
-//                prefRange = 90;
-//                break;
-//            }
-//            default:
-//                break;
-//        }
+        setHistoryPref();
 
         stockTextView.setText(mSymbol);
 
@@ -169,17 +141,13 @@ public class StockDetailFragment extends Fragment{
 
         ArrayList<Entry> yAxesQuote = getEntries(stockDateIndex, reverseParseRawData);
 
-        //
         LineDataSet quoteDataSet = new LineDataSet(yAxesQuote, "Quote");
         quoteDataSet.setColor(Color.GREEN);
         quoteDataSet.setDrawCircles(false);
-
-        //holder.lineChart.animateY(15(00);
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getXAxis().setDrawGridLines(false);
-        lineChart.setPinchZoom(false);
-
-
+        lineChart.setDescription(null);
+        lineChart.setTouchEnabled(false);
         XAxis xAxis = lineChart.getXAxis();
 
         IAxisValueFormatter xAxisFormatter = new StockXAxesFormater(stockDateIndex);
@@ -189,9 +157,34 @@ public class StockDetailFragment extends Fragment{
         lineChart.setData(new LineData(quoteDataSet));
         lineChart.invalidate();
 
-
-
         return view;
+    }
+
+    private void setHistoryPref() {
+
+        sharedPref = PrefUtils.getDateRangePreference(getContext());
+
+        switch(sharedPref){
+
+            case StockDetailFragment.PREF_ONE_MONTH:{
+                prefRange = 30;
+                break;
+            }
+            case StockDetailFragment.PREF_SIX_MONTHS:{
+                prefRange = 180;
+                break;
+            }
+            case StockDetailFragment.PREF_ONE_YEAR:{
+                prefRange = 360;
+                break;
+            }
+            case StockDetailFragment.PREF_THREE_MONTHS:{
+                prefRange = 90;
+                break;
+            }
+            default:
+                break;
+        }
     }
 
 
@@ -219,8 +212,6 @@ public class StockDetailFragment extends Fragment{
     }
 
     private boolean dataInPrefDateRange(String[] data) {
-        //get Prefered date range
-        //if data[0] is in range return true
         SimpleDateFormat inputDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date date = null;
         try {
@@ -244,16 +235,6 @@ public class StockDetailFragment extends Fragment{
             retData[i] = splitRawData[(splitRawData.length - 1) - i];
         }
         return retData;
-    }
-
-
-
-
-    public interface Callback {
-        // TODO: Update argument type and name
-        void restartLoader();
-        void setUri(Uri uri);
-
     }
 
 }

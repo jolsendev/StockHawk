@@ -30,7 +30,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     public static final String POSITION = "mPosition";
     private int mPosition;
     private Uri mUri;
-
     private TextView tvOneMonthButton;
     private TextView tvThreeMonthButton;
     private TextView tvSixMonth;
@@ -49,8 +48,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initTextViews();
         sharedPref = PrefUtils.getDateRangePreference(this);
-        
+        setPrefRangeButton();
+    }
+
+    private void initTextViews() {
         tvOneMonthButton = (TextView) findViewById(R.id.tv_one_month);
         tvOneMonthButton.setOnClickListener(this);
         tvThreeMonthButton = (TextView)findViewById(R.id.tv_three_months);
@@ -59,7 +62,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         tvSixMonth.setOnClickListener(this);
         tvOneYear = (TextView)findViewById(R.id.tv_one_year);
         tvOneYear.setOnClickListener(this);
-
     }
 
     @Override
@@ -71,7 +73,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader cursor = null;
-        //(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
+
         switch (id){
             case QUOTE_ADAPTER:{
                 return new CursorLoader(this,
@@ -95,7 +97,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     mPager.setAdapter(mPagerAdapter);
                     //mPagerAdapter.swapCursor(data);
                     mPager.setPageTransformer(true, new ZoomOutPageTransformer());
-
                 }
                 break;
             }
@@ -109,7 +110,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     public void restartLoader() {
         getSupportLoaderManager().restartLoader(QUOTE_ADAPTER, null, this);
-
     }
 
     private void setPrefRangeButton() {
@@ -153,6 +153,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("three_months").build();
                 PrefUtils.setDateRangePreference(this, StockDetailFragment.PREF_THREE_MONTHS);
                 resetButtonColor();
+                tvThreeMonthButton.setTextColor(Color.RED);
                 restartLoader();
                 break;
             }
@@ -160,6 +161,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 mUri = Contract.Quote.URI.buildUpon().appendPath("date_range").appendPath("six_months").build();
                 PrefUtils.setDateRangePreference(this, StockDetailFragment.PREF_SIX_MONTHS);
                 resetButtonColor();
+                tvSixMonth.setTextColor(Color.RED);
                 restartLoader();
                 break;
             }
@@ -167,6 +169,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 mUri = Contract.Quote.URI;
                 PrefUtils.setDateRangePreference(this, StockDetailFragment.PREF_ONE_YEAR);
                 resetButtonColor();
+                tvOneYear.setTextColor(Color.RED);
                 restartLoader();
                 break;
             }
@@ -175,9 +178,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void resetButtonColor() {
         tvOneMonthButton.setTextColor(this.getColor(R.color.textColor));
-        tvOneYear.setTextColor(this.getColor(R.color.textColor));;
-        tvSixMonth.setTextColor(this.getColor(R.color.textColor));;
-        tvThreeMonthButton.setTextColor(this.getColor(R.color.textColor));;
+        tvOneYear.setTextColor(this.getColor(R.color.textColor));
+        tvSixMonth.setTextColor(this.getColor(R.color.textColor));
+        tvThreeMonthButton.setTextColor(this.getColor(R.color.textColor));
     }
 
 }

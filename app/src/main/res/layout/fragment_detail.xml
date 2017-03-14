@@ -10,14 +10,4 @@
     android:id="@+id/detail_layout"
     tools:context="com.udacity.stockhawk.ui.DetailActivity">
 
-    <!--<com.udacity.stockhawk.custom_recycler_view.SnappyRecyclerView-->
-        <!--android:id="@+id/chart_recycler_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"/>-->
-    <!--<android.support.v4.view.ViewPager-->
-        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:id="@+id/pager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
-
 </LinearLayout>
