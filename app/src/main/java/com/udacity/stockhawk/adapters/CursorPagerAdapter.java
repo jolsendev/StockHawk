@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import com.google.common.collect.ImmutableList;
 import com.udacity.stockhawk.data.Contract;
 
-public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAdapter {
+import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
+
+public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener{
     private final Class<F> fragmentClass;
     private final ImmutableList<String> projection;
     private Cursor cursor;
@@ -103,5 +106,22 @@ public class CursorPagerAdapter<F extends Fragment> extends FragmentStatePagerAd
     }
     private int getPosition(){
         return this.mRealPosition;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if(positionOffset == SCROLL_STATE_IDLE){
+            System.out.println("!!!!!!!!!!!!!!!!!!positionOffSet position: "+position);
+        }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

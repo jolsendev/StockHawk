@@ -29,6 +29,7 @@ public final class Contract {
         public static final Uri URI_SIX_MONTHS = URI.buildUpon().appendPath(QUOTE_HISTORY_SIX_MONTH).build();
         public static final Uri URI_ONE_MONTHS = URI.buildUpon().appendPath(QUOTE_HISTORY_ONE_MONTH).build();
         public static final Uri URI_THREE_MONTHS = URI.buildUpon().appendPath(QUOTE_HISTORY_THREE_MONTHS).build();
+
         public static final String COLUMN_SYMBOL = "symbol";
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_ABSOLUTE_CHANGE = "absolute_change";

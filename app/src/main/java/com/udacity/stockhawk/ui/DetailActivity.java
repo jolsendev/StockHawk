@@ -45,6 +45,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mPosition = bundleExtras.getInt(POSITION);
         Toolbar toolbar = (Toolbar)findViewById(R.id.detail_toolbar);
         mPager = (ViewPager)findViewById(R.id.pager);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -95,6 +96,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     StockDetailFragment sDF = new StockDetailFragment();
                     mPagerAdapter = new CursorPagerAdapter(getSupportFragmentManager(), sDF.getClass(), Contract.Quote.QUOTE_COLUMNS, data, mPosition);
                     mPager.setAdapter(mPagerAdapter);
+                    mPager.setOnPageChangeListener(mPagerAdapter);
                     //mPagerAdapter.swapCursor(data);
                     mPager.setPageTransformer(true, new ZoomOutPageTransformer());
                 }
