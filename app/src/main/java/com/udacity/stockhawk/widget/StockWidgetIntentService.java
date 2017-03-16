@@ -61,16 +61,28 @@ public class StockWidgetIntentService extends IntentService {
                 null,
                 null);
 
+        if (cursor == null) {
+            return;
+        }
+        if (!cursor.moveToFirst()) {
+            cursor.close();
+            return;
+        }
+
         // Extract the Stock's data from the Cursor
         String symbol = cursor.getString(POSITION_SYMBOL);
+        String history = cursor.getString(POSITION_HISTORY);
+        Double price = cursor.getDouble(POSITION_PRICE);
+        Double absoluteChange = cursor.getDouble(POSITION_ABSOLUTE_CHANGE);
         // Perform this loop procedure for each Stock's widget
-
+        cursor.close();
         for (int appWidgetId : appWidgetIds){
             int layoutId = R.layout.stock_widget_small;
-            RemoteViews views = new RemoteViews(getPackageName(), layoutId);
-
             // Add the data to the RemoteViews
-
+            RemoteViews views = new RemoteViews(getPackageName(), layoutId);
+            views.setTextViewText(R.id.symbol, symbol);
+            views.setTextViewText(R.id.price, Double.toString(price));
+            views.setTextViewText(R.id.change, Double.toString(absoluteChange));
             // Create an Intent to launch MainActivity
 
             // Tell the AppWidgetManager to perform an update on the current app widget
