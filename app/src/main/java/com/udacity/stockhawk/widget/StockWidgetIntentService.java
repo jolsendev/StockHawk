@@ -1,6 +1,7 @@
 package com.udacity.stockhawk.widget;
 
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.widget.RemoteViews;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
+import com.udacity.stockhawk.ui.DetailActivity;
 
 import static com.udacity.stockhawk.data.Contract.Quote.COLUMN_ABSOLUTE_CHANGE;
 import static com.udacity.stockhawk.data.Contract.Quote.COLUMN_HISTORY;
@@ -84,7 +86,9 @@ public class StockWidgetIntentService extends IntentService {
             views.setTextViewText(R.id.price, Double.toString(price));
             views.setTextViewText(R.id.change, Double.toString(absoluteChange));
             // Create an Intent to launch MainActivity
-
+            Intent launchIntent = new Intent(this, DetailActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, launchIntent, 0);
+            views.setOnClickPendingIntent(R.id.stock_widget, pendingIntent);
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
 
