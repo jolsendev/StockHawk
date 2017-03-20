@@ -2,8 +2,10 @@
 <appwidget-provider
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/stock_widget_small"
-    android:minHeight="@dimen/widget_stock_default_height"
-    android:minWidth="@dimen/widget_stock_default_width"
+    android:minHeight="@dimen/widget_detail_default_height"
+    android:minResizeHeight="@dimen/widget_detail_min_resize_height"
+    android:minResizeWidth="@dimen/widget_detail_min_resize_width"
+    android:minWidth="@dimen/widget_detail_default_width"
     android:updatePeriodMillis="0"
     android:previewImage="@drawable/ic_percentage"
     >

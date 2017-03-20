@@ -40,12 +40,10 @@ public class StockWidgetIntentService extends IntentService {
             COLUMN_HISTORY
     };
 
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     * @param name Used to name the worker thread, important only for debugging.
-     */
-    public StockWidgetIntentService(String name) {
-        super(name);
+
+
+    public StockWidgetIntentService() {
+        super("StockWidgetIntentService");
     }
 
     @Override

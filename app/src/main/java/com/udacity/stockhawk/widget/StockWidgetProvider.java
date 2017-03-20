@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import com.udacity.stockhawk.sync.QuoteIntentService;
+import com.udacity.stockhawk.sync.QuoteSyncJob;
 
 /**
  * Created by Jamie on 3/7/2017.
@@ -29,10 +29,10 @@ public class StockWidgetProvider extends AppWidgetProvider {
     public void onReceive(@NonNull Context context, @NonNull Intent intent) {
         super.onReceive(context, intent);
         String action = intent.getAction();
-        context.startService(new Intent(context, QuoteIntentService.class));
+        //context.startService(new Intent(context, QuoteIntentService.class));
         //need to create a sync adapter
-//        if (QuoteSyncJob.ACTION_DATA_UPDATED.equals(intent.getAction())) {
-//            context.startService(new Intent(context, QuoteIntentService.class));
-//        }
+        if (QuoteSyncJob.ACTION_DATA_UPDATED.equals(intent.getAction())) {
+            context.startService(new Intent(context, StockWidgetIntentService.class));
+        }
     }
 }
