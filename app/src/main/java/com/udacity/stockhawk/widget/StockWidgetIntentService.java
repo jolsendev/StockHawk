@@ -13,6 +13,8 @@ import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.ui.DetailActivity;
 
+import java.text.DecimalFormat;
+
 import static com.udacity.stockhawk.data.Contract.Quote.COLUMN_ABSOLUTE_CHANGE;
 import static com.udacity.stockhawk.data.Contract.Quote.COLUMN_HISTORY;
 import static com.udacity.stockhawk.data.Contract.Quote.COLUMN_PERCENTAGE_CHANGE;
@@ -73,7 +75,12 @@ public class StockWidgetIntentService extends IntentService {
         String symbol = cursor.getString(POSITION_SYMBOL);
         String history = cursor.getString(POSITION_HISTORY);
         Double price = cursor.getDouble(POSITION_PRICE);
+        DecimalFormat df = new DecimalFormat("#.00");
+
         Double absoluteChange = cursor.getDouble(POSITION_ABSOLUTE_CHANGE);
+        float rawAbsoluteChange = cursor.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
+        float percentageChange = cursor.getFloat(Contract.Quote.POSITION_PERCENTAGE_CHANGE);
+
         // Perform this loop procedure for each Stock's widget
         cursor.close();
         for (int appWidgetId : appWidgetIds){
@@ -81,14 +88,20 @@ public class StockWidgetIntentService extends IntentService {
             // Add the data to the RemoteViews
             RemoteViews views = new RemoteViews(getPackageName(), layoutId);
             views.setTextViewText(R.id.symbol, symbol);
-            views.setTextViewText(R.id.price, Double.toString(price));
-            views.setTextViewText(R.id.change, Double.toString(absoluteChange));
+            views.setTextViewText(R.id.price, df.format(price));
+            views.setTextViewText(R.id.change, df.format(absoluteChange));
             // Create an Intent to launch MainActivity
             Intent launchIntent = new Intent(this, DetailActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, launchIntent, 0);
             views.setOnClickPendingIntent(R.id.stock_widget, pendingIntent);
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
+
+            if (rawAbsoluteChange > 0) {
+                views.setTextColor(R.id.change, getResources().getColor(R.color.material_green_700));
+            } else {
+                views.setTextColor(R.id.change,  getResources().getColor(R.color.material_red_700));
+            }
 
         }
 
